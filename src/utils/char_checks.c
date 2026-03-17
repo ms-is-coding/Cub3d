@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minimap.h                                          :+:      :+:    :+:   */
+/*   char_checks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/25 12:20:10 by fadzejli          #+#    #+#             */
-/*   Updated: 2026/03/16 16:37:33 by mattcarniel      ###   ########.fr       */
+/*   Created: 2026/03/16 11:08:02 by mattcarniel       #+#    #+#             */
+/*   Updated: 2026/03/16 11:09:04 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
 
-#ifndef MINIMAP_H
-#define MINIMAP_H
+bool	is_whitespace(char c)
+{
+	return (c == ' ' || c == '\t');
+}
 
-# include "cub3d.h"
-# include "engine/engine.h"
-
-#define MMP_PIXEL_SIZE 4
-
-void draw_minimap(t_engine *engine);
-
-#endif
+bool	is_printable(char c)
+{
+	return (c >= 32 && c < 127);
+}

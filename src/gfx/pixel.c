@@ -6,13 +6,13 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 15:01:42 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/02/16 17:29:35 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/16 12:12:54 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdint.h>
 
-#include "image.h"
+#include "gfx.h"
 
 /**
  * @brief Sets a given color value to a pixel.
@@ -24,14 +24,14 @@
  */
 void	set_pixel(uint32_t x, uint32_t y, uint32_t color, t_image *img)
 {
-	char	*dst;
+	uint32_t	offset;
 
-	if (!img || x >= img->pxl_w || y >= img->pxl_h)
+	if (!img || x >= img->width || y >= img->height)
 		return ;
 	if (color > 0xFFFFFF)
 		color = 0xFFFFFF;
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pxl / 8));
-	*(unsigned int *)dst = color;
+	offset = y * (img->linesz / 4) + x;
+	*(img->data + offset) = color;
 }
 
 /**
@@ -44,15 +44,15 @@ void	set_pixel(uint32_t x, uint32_t y, uint32_t color, t_image *img)
  */
 void	add_pixel(uint32_t x, uint32_t y, unsigned int color, t_image *img)
 {
-	char	*dst;
+	uint32_t	offset;
 
-	if (!img || x >= img->pxl_w || y >= img->pxl_h || y < 0)
+	if (!img || x >= img->width || y >= img->height)
 		return ;
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pxl / 8));
-	color += *(unsigned int *)dst;
+	offset = y * (img->linesz / 4) + x;
+	color += *(img->data + offset);
 	if (color > 0xFFFFFF)
 		color = 0xFFFFFF;
-	*(unsigned int *)dst = color;
+	*(img->data + offset)= color;
 }
 
 /**
@@ -65,23 +65,23 @@ void	add_pixel(uint32_t x, uint32_t y, unsigned int color, t_image *img)
  */
 uint32_t	get_pixel(uint32_t x, uint32_t y, t_image *img)
 {
-	char	*src;
+	uint32_t	offset;
 
-	if (!img || x >= img->pxl_w || x < 0 || y >= img->pxl_h || y < 0)
+	if (!img || x >= img->width || y >= img->height)
 		return (0);
-	src = img->addr + y * img->line_length + x * (img->bits_per_pxl / 8);
-	return (*(uint32_t *)src);
+	offset = y * (img->linesz / 4) + x;
+	return (*(img->data + offset));
 }
 
 /** 
  * @brief Scales a pixel by a given factor and color values.
  */
-void	scale_pixel(uint32_t x, uint32_t y, uint32_t c, int scale, t_image *dst)
+void	scale_pixel(uint32_t x, uint32_t y, uint32_t c, uint32_t scale, t_image *dst)
 {
 	uint32_t	i;
 	uint32_t	j;
 
-	if (!dst)
+	if (!dst || scale <= 0)
 		return ;
 	j = 0;
 	while (j < y + scale)
@@ -102,9 +102,9 @@ uint32_t	blend_colors(uint32_t src_c, uint32_t dst_c, float t)
 	int	g;
 	int	b;
 
-	if (t < 0)
+	if (t <= 0)
 		return (src_c);
-	if (t > 1)
+	if (t >= 1)
 		return (dst_c);
 	r = ((1 - t) * ((src_c >> 16) & 0xFF)) + (t * ((dst_c >> 16) & 0xFF));
 	g = ((1 - t) * ((src_c >> 8) & 0xFF)) + (t * ((dst_c >> 8) & 0xFF));

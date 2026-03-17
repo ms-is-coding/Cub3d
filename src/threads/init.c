@@ -3,21 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fadzejli <fadzejli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 19:44:44 by smamalig          #+#    #+#             */
-/*   Updated: 2026/02/20 14:27:16 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/16 12:37:19 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "game.h"
-#include "threads.h"
-#include "libft.h"
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <unistd.h>
 #include <stdio.h>
+
+#include "libft.h"
+#include "common.h"
+
+#include "threads.h"
+
 
 static void	*worker_loop(void *arg)
 {

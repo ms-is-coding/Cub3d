@@ -1,0 +1,38 @@
+[TILES]
+
+1=wall
+N=player
+0=floor
+
+[TEXTURES]
+
+1:N=./textures/north.xpm
+1:S=./textures/south.xpm
+1:W=./textures/west.xpm
+1:E=./textures/east.xpm
+
+
+invalid=./textures/invalid.xpm
+
+[COLORS]
+
+ceiling=11,13,54
+floor=0,1,4
+
+[MAP]
+
+                    
+       
+111111111111111111111
+100000000000000000001
+101111111111111111101
+101               101
+101               101
+101               101
+101               101
+101               101
+101               101
+101               101
+101111111111111111101
+100000000N00000000001
+111111111111111111111

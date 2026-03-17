@@ -3,62 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 12:20:10 by fadzejli          #+#    #+#             */
-/*   Updated: 2026/02/25 22:45:54 by fadwa            ###   ########.fr       */
+/*   Updated: 2026/03/16 19:51:54 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
+#include <stdint.h>
+
+#include "engine/engine.h"
+#include "assets/assets.h"
+#include "gfx/gfx.h"
 
 #include "minimap.h"
 
-void draw_pixel(t_game *game, int row, int col, int color)
+void	draw_minimap(t_engine *engine)
 {
-    int pixel_j;
-    int pixel_i;
-    int i = 0;
-    int j = 0;
+	t_map	*map;
+	uint8_t	flags;
+	size_t	x;
+	size_t	y;
 
-    pixel_j = row * MMP_PIXEL_SIZE;
-    pixel_i = col * MMP_PIXEL_SIZE;
-    if (pixel_j + MMP_PIXEL_SIZE > WIDTH || pixel_j < 0)
-        return ;
-    if (pixel_i + MMP_PIXEL_SIZE > HEIGHT || pixel_i < 0)
-        return ;
-    while (i < MMP_PIXEL_SIZE)
-    {
-        j = 0;
-        while (j < MMP_PIXEL_SIZE)
-        {
-            game->addr[(pixel_i + i) * WIDTH + (pixel_j + j)] = color;
-            j++;
-        }
-        i++;
-    }
-}
-
-void draw_minimap(t_game *game)
-{
-    int i;
-    int j;
-    char **map;
-
-    i = 0;
-    map = game->data->map;
-    while (map[i])
-    {
-        j = 0;
-        while (map[i][j])
-        {
-            if (map[i][j] == '1')
-                draw_pixel(game, j, i, 0x000000);
-            else if (map[i][j] == '0' || map[i][j] == ' ')
-                draw_pixel(game, j, i, 0xFFFFFF);
-            else
-                draw_pixel(game, j, i, 0xFF0000);
-            j++;
-        }
-        i++;
-    }
+	y = 0;
+	map = &engine->assets.map;
+	while (y < map->height)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			flags = map_tile_at(&engine->assets, x, y)->flags;
+			if (flags & TILE_F_WALL)
+				set_pixel(x, y, 0x000000, NULL);
+			else if (flags & TILE_F_WALKABLE)
+				set_pixel(x, y, 0xFFFFFF, NULL);
+			else
+				set_pixel(x, y, 0xFF0000, NULL);
+			x++;
+		}
+		y++;
+	}
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.h                                             :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smamalig <smamalig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 22:01:00 by smamalig          #+#    #+#             */
-/*   Updated: 2026/02/25 11:02:19 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:38:00 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,7 @@
 
 long	get_timestamp_us(void);
 
-typedef struct s_file {
-	const char		*path;
-	const char		*data;
-	size_t			size;
-}	t_file;
-
-t_file	map_file(const char *filename);
-void	unmap_file(t_file *file);
+bool	is_whitespace(char c);
+bool	is_printable(char c);
 
 #endif

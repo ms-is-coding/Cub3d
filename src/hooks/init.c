@@ -6,47 +6,48 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 13:32:19 by smamalig          #+#    #+#             */
-/*   Updated: 2026/02/20 11:30:05 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/16 16:36:07 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
-#include "game.h"
 #include "mlx.h"
+
+#include "cub3d.h"
+#include "engine/engine.h"
+
 #include "hooks.h"
 
-static int	game_destroy_hook(t_game *game)
+static int	game_destroy_hook(t_engine *e)
 {
-	game_destroy(game, 0);
+	engine_deinit(e);
+	return (0);
 }
 
 #if defined(__linux__)
 
-int	hooks_init(t_game *game)
+int	hooks_init(t_engine *engine)
 {
-	game->gfx.win = game->win;
-	game->gfx.mlx = game->mlx;
 	// if (!game->win)
 	// 	return (1);
-	mlx_hook(game->gfx.win, evDestroyNotify, 0,
-		(t_hook_fn)(intptr_t)game_destroy_hook, game);
-	hooks_keys_init(game);
-	mlx_mouse_hide(game->gfx.mlx, game->gfx.win);
-	hooks_mouse_init(game);
+	mlx_hook(engine->gfx.win, evDestroyNotify, 0,
+		(t_hook_fn)(intptr_t)game_destroy_hook, engine);
+	hooks_keys_init(engine);
+	mlx_mouse_hide(engine->gfx.mlx, engine->gfx.win);
+	hooks_mouse_init(engine);
 	return (0);
 }
 
 #elif defined(__APPLE__)
 
-int	hooks_init(t_game *game)
+int	hooks_init(t_engine *engine)
 {
-	if (!game->gfx.win)
+	if (!engine->gfx.win)
 		return (1);
-	mlx_hook(game->gfx.win, evDestroyNotify, 0,
-		(t_hook_fn)(intptr_t)game_destroy_hook, game);
-	hooks_keys_init(game);
+	mlx_hook(engine->gfx.win, evDestroyNotify, 0,
+		(t_hook_fn)(intptr_t)game_destroy_hook, engine);
+	hooks_keys_init(engine);
 	mlx_mouse_hide();
-	hooks_mouse_init(game);
+	hooks_mouse_init(engine);
 	return (0);
 }
 

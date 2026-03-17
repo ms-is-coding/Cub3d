@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smamalig <smamalig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:39:13 by smamalig          #+#    #+#             */
-/*   Updated: 2026/02/24 19:30:41 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/16 12:34:47 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "common.h"
-#include "game.h"
 #include "options/options.h"
 #include <stddef.h>
 #include <stdlib.h>
@@ -77,10 +76,10 @@ int	options_init(t_options *opts, int argc, char **argv)
 				|| strcmp(g_options[j].short_name, option) == 0)
 				break ;
 		if (j == opt_count)
-			return (argv[i + 1] != nullptr);
+			return (argv[i + 1] != NULL);
 		if (!argv[i + 1] || g_options[j].parse(opts, g_options[j], argv[i + 1]))
 			return (1);
 		i += 2;
 	}
-	return (argv[i] == nullptr);
+	return (argv[i] == NULL);
 }

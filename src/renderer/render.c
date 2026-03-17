@@ -6,15 +6,10 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:14:46 by smamalig          #+#    #+#             */
-/*   Updated: 2026/02/26 13:49:53 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/16 16:35:47 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "game.h"
-#include "libft.h"
-#include "renderer.h"
-#include "world/world.h"
-#include "utils/utils.h"
 #include <time.h>
 #include <math.h>
 #include <stdint.h>
@@ -22,36 +17,46 @@
 #include <time.h>
 #include <unistd.h>
 
-__attribute__((unused))
-static void	find_wall(t_ray *ray, char **map)
-{
-	int	wall;
+#include "assets/assets.h"
+#include "libft.h"
+#include "renderer.h"
+#include "world/world.h"
+#include "utils/utils.h"
 
-	wall = 0;
-	while (!wall)
-	{
-		if (ray->dda.side_x < ray->dda.side_y)
-		{
-			ray->dda.side_x += ray->dda.delta_x;
-			ray->pos_x += ray->dda.step_x;
-			ray->side = EAST;
-		}
-		else
-		{
-			ray->dda.side_y += ray->dda.delta_y;
-			ray->pos_y += ray->dda.step_y;
-			ray->side = NORTH;
-		}
-		if (ray->pos_y < 0 || (uint32_t)ray->pos_y >= get_height(map))
-			wall = 1;
-		else if (ray->pos_x < 0
-			|| (uint32_t)ray->pos_x >= ft_strlen(map[ray->pos_y]))
-			wall = 1;
-		else if (!wall && map[ray->pos_y][ray->pos_x] == '1')
-			wall = 1;
-	}
-	calculate_distances(ray);
-}
+#include "renderer_internal.h"
+
+
+//need to rework logic with t_assets func
+//__attribute__((unused))
+// static void	find_wall(t_ray *ray, t_map *map)
+// {
+// 	int	wall;
+
+// 	wall = 0;
+// 	while (!wall)
+// 	{
+// 		if (ray->dda.side_x < ray->dda.side_y)
+// 		{
+// 			ray->dda.side_x += ray->dda.delta_x;
+// 			ray->pos_x += ray->dda.step_x;
+// 			ray->side = DIR_EAST;
+// 		}
+// 		else
+// 		{
+// 			ray->dda.side_y += ray->dda.delta_y;
+// 			ray->pos_y += ray->dda.step_y;
+// 			ray->side = DIR_NORTH;
+// 		}
+// 		if (ray->pos_y < 0 || (uint32_t)ray->pos_y >= map->width)
+// 			wall = 1;
+// 		else if (ray->pos_x < 0
+// 			|| (uint32_t)ray->pos_x >= map->width)
+// 			wall = 1;
+// 		else if (!wall && map[ray->pos_y][ray->pos_x] == '1')
+// 			wall = 1;
+// 	}
+// 	calculate_distances(ray);
+// }
 
 static void	init_dda(t_ray *ray, const t_player player)
 {

@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minimap.h                                          :+:      :+:    :+:   */
+/*   file.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/25 12:20:10 by fadzejli          #+#    #+#             */
-/*   Updated: 2026/03/16 16:37:33 by mattcarniel      ###   ########.fr       */
+/*   Created: 2026/03/16 11:36:02 by mattcarniel       #+#    #+#             */
+/*   Updated: 2026/03/16 11:38:12 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FILE_H
+# define FILE_H
 
-#ifndef MINIMAP_H
-#define MINIMAP_H
+# include <stddef.h>
 
-# include "cub3d.h"
-# include "engine/engine.h"
+typedef struct s_file {
+	const char		*path;
+	const char		*data;
+	size_t			size;
+}	t_file;
 
-#define MMP_PIXEL_SIZE 4
+bool	is_valid_name(const char *path);
 
-void draw_minimap(t_engine *engine);
+void	unmap_file(t_file *file);
+t_file	map_file(const char *path);
 
 #endif

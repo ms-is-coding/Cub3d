@@ -17,7 +17,6 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/time.h>
-# include "parser.h"
 # include <stdint.h>
 
 # if defined(__linux__)
@@ -69,37 +68,5 @@ enum {
 };
 
 # endif
-
-enum e_dir {
-	EAST,
-	NORTH,
-	WEST,
-	SOUTH,
-};
-
-typedef struct s_pos
-{
-	float		x;
-	float		y;
-	enum e_dir	dir;
-}	t_pos;
-
-typedef struct s_data
-{
-	char		*t_north;
-	char		*t_south;
-	char		*t_west;
-	char		*t_east;
-	uint32_t	floor_color;
-	uint32_t	ceiling_color;
-	char		**map;
-	t_pos		player_pos;
-	int			fd;
-}	t_data;
-
-/* Cleanup  */
-void	free_data(t_data *data);
-void	free_map_and_player(t_data *data);
-void	free_map(char **map);
 
 #endif

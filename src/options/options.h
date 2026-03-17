@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   options.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smamalig <smamalig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:37:42 by smamalig          #+#    #+#             */
-/*   Updated: 2026/02/24 17:16:04 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/02/26 19:33:30 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@
 # include <stdint.h>
 
 typedef struct s_options {
-	const char		**texture_names;
-	uint32_t		texture_count;
 	uint32_t		width;
 	uint32_t		height;
 	int16_t			thread_count;
 	int16_t			fps;
+
 }	t_options;
 
 typedef struct s_option {

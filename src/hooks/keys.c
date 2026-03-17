@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fadzejli <fadzejli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 13:50:19 by smamalig          #+#    #+#             */
-/*   Updated: 2026/02/19 18:57:04 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/16 12:28:02 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
-#include "hooks.h"
-#include "mlx.h"
 #include <stdint.h>
+#include "mlx.h"
+
+#include "cub3d.h"
+#include "engine/engine.h"
+
+#include "hooks.h"
 
 enum e_key_bits {
 	KEY_FORWARD,
@@ -59,23 +62,23 @@ static inline void	key_update(uint32_t *bits, int keysym, uint32_t pressed)
 	*bits ^= (-pressed ^ *bits) & mask;
 }
 
-static int	key_press_hook(int keysym, t_game *game)
+static int	key_press_hook(int keysym, t_engine *e)
 {
-	key_update(&game->input.keys.bits, keysym, 1);
+	key_update(&e->input.keys.bits, keysym, 1);
 	return (0);
 }
 
-static int	key_release_hook(int keysym, t_game *game)
+static int	key_release_hook(int keysym, t_engine *e)
 {
-	key_update(&game->input.keys.bits, keysym, 0);
+	key_update(&e->input.keys.bits, keysym, 0);
 	return (0);
 }
 
-int	hooks_keys_init(t_game *game)
+int	hooks_keys_init(t_engine *engine)
 {
-	mlx_hook(game->gfx.win, evKeyPress, evKeyPressMask,
-		(t_hook_fn)(intptr_t)key_press_hook, game);
-	mlx_hook(game->gfx.win, evKeyRelease, evKeyReleaseMask,
-		(t_hook_fn)(intptr_t)key_release_hook, game);
+	mlx_hook(engine->gfx.win, evKeyPress, evKeyPressMask,
+		(t_hook_fn)(intptr_t)key_press_hook, engine);
+	mlx_hook(engine->gfx.win, evKeyRelease, evKeyReleaseMask,
+		(t_hook_fn)(intptr_t)key_release_hook, engine);
 	return (0);
 }
