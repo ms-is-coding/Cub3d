@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 13:11:57 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/18 17:47:46 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/18 20:32:28 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 
 # include <stdint.h>
 # include "options/options.h"
-
-# define WIDTH 1920
-# define HEIGHT 1080
 
 typedef struct s_gfx {
 	void		*mlx;

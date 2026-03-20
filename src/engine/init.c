@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 12:31:29 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/18 20:36:41 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/20 18:09:55 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	init_engine_pointers(t_engine *e)
 	e->physics.world_buffer = &e->world_buffer;
 	e->renderer.world_buffer = &e->world_buffer;
 	e->assets.gfx = &e->gfx;
+	e->renderer.options = &e->opt;
 	e->renderer.gfx = &e->gfx;
 	e->renderer.assets = &e->assets;
 	e->physics.input = &e->input;

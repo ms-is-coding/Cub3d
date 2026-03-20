@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:37:42 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/18 14:08:48 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/20 17:18:17 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@
 # include <stdint.h>
 
 typedef struct s_options {
+	const char		*file_path;
 	uint32_t		width;
 	uint32_t		height;
 	int16_t			thread_count;
 	int16_t			fps;
-	const char		*file_path;
 
+	char			reserved[4];
 }	t_options;
 
 typedef struct s_option {

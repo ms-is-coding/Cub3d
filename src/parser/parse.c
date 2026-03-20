@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:26:02 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/18 20:32:36 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/20 18:09:37 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	parse_assets(t_assets *assets, const char *data, size_t size)
 		if (is_section(line))
 			p.cur = line.ptr;
 	}
-	if (SEC_ALL != (flags & SEC_ALL))
+	if (SEC_ALL == (flags & SEC_ALL))
 		return (0);
 	return (dprintf(2, "Missing valid sections\n"), 1);
 }

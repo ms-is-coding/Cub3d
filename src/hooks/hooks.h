@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 13:37:21 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/18 16:25:57 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/20 17:17:14 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct s_mouse {
     uint8_t		left_pressed;
     uint8_t		right_pressed;
     uint8_t		middle_pressed;
+
+	char 		reserved[1];
 }	t_mouse;
 
 typedef struct s_input {

@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:14:46 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/18 17:50:49 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/20 17:02:39 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include <unistd.h>
 
 #include "assets/assets.h"
-#include "libft.h"
 #include "renderer.h"
 #include "world/world.h"
 #include "utils/utils.h"
@@ -29,42 +28,42 @@ static void	init_dda(t_ray *ray, const t_player player)
 {
 	if (ray->dir.x < 0)
 	{
-		ray->dda.step_x = -1;
-		ray->dda.delta_x = fabsf(1.0f / ray->dir.x);
-		ray->dda.side_x = (player.pos.x - (float)ray->pos_x) * ray->dda.delta_x;
+		ray->dda.step.x = -1;
+		ray->dda.delta.x = fabsf(1.0f / ray->dir.x);
+		ray->dda.side.x = (player.pos.x - (float)ray->pos.x) * ray->dda.delta.x;
 	}
 	else
 	{
-		ray->dda.step_x = 1;
-		ray->dda.delta_x = fabsf(1.0f / ray->dir.x);
-		ray->dda.side_x = ((float)ray->pos_x + 1.0f - player.pos.x) * ray->dda.delta_x;
+		ray->dda.step.x = 1;
+		ray->dda.delta.x = fabsf(1.0f / ray->dir.x);
+		ray->dda.side.x = ((float)ray->pos.x + 1.0f - player.pos.x) * ray->dda.delta.x;
 	}
 	if (ray->dir.y < 0)
 	{
-		ray->dda.step_y = -1;
-		ray->dda.delta_y = fabsf(1.0f / ray->dir.y);
-		ray->dda.side_y = (player.pos.y - (float)ray->pos_y) * ray->dda.delta_y;
+		ray->dda.step.y = -1;
+		ray->dda.delta.y = fabsf(1.0f / ray->dir.y);
+		ray->dda.side.y = (player.pos.y - (float)ray->pos.y) * ray->dda.delta.y;
 	}
 	else
 	{
-		ray->dda.step_y = 1;
-		ray->dda.delta_y = fabsf(1.0f / ray->dir.y);
-		ray->dda.side_y = ((float)ray->pos_y + 1.0f - player.pos.y) * ray->dda.delta_y;
+		ray->dda.step.y = 1;
+		ray->dda.delta.y = fabsf(1.0f / ray->dir.y);
+		ray->dda.side.y = ((float)ray->pos.y + 1.0f - player.pos.y) * ray->dda.delta.y;
 	}
 }
 
-static void	init_ray(t_ray *ray, const t_player player, uint32_t x)
+static void	init_ray(t_ray *ray, const t_player p, uint32_t width, uint32_t x)
 {
-	const float	cam = 2.0f * (float)x / (float)WIDTH - 1.0f;
-	const float	dir_x = cosf(player.yaw);
-	const float	dir_y = sinf(player.yaw);
-	const float	plane = tanf(player.fov * 0.5f);
+	const float	cam = 2.0f * (float)x / (float)width - 1.0f;
+	const float	dir_x = cosf(p.yaw);
+	const float	dir_y = sinf(p.yaw);
+	const float	plane = tanf(p.fov * 0.5f);
 
 	ray->dir.x = dir_x - dir_y * cam * plane;
 	ray->dir.y = dir_y + dir_x * cam * plane;
-	ray->pos_x = (int)player.pos.x;
-	ray->pos_y = (int)player.pos.y;
-	init_dda(ray, player);
+	ray->pos.x = (int32_t)p.pos.x;
+	ray->pos.y = (int32_t)p.pos.y;
+	init_dda(ray, p);
 }
 
 static int	cast_ray(t_ray *ray, const t_player *p, const t_map *map,
@@ -74,25 +73,25 @@ static int	cast_ray(t_ray *ray, const t_player *p, const t_map *map,
 
 	while (!found)
 	{
-		if (ray->dda.side_x < ray->dda.side_y)
+		if (ray->dda.side.x < ray->dda.side.y)
 		{
-			ray->dda.side_x += ray->dda.delta_x;
-			ray->pos_x += ray->dda.step_x;
+			ray->dda.side.x += ray->dda.delta.x;
+			ray->pos.x += ray->dda.step.x;
 			hit->side = 0;
 		}
 		else
 		{
-			ray->dda.side_y += ray->dda.delta_y;
-			ray->pos_y += ray->dda.step_y;
+			ray->dda.side.y += ray->dda.delta.y;
+			ray->pos.y += ray->dda.step.y;
 			hit->side = 1;
 		}
 
 		/* bounds check */
-		if (ray->pos_x < 0 || ray->pos_x >= (int)map->width
-			|| ray->pos_y < 0 || ray->pos_y >= (int)map->height)
+		if (ray->pos.x < 0 || ray->pos.x >= (int)map->width
+			|| ray->pos.y < 0 || ray->pos.y >= (int)map->height)
 			return (0);
 
-		hit->tile_id = map->data[ray->pos_y * map->width + ray->pos_x];
+		hit->tile_id = map->data[ray->pos.y * map->width + ray->pos.x];
 
 		if (tiles[hit->tile_id].flags & TILE_F_RAY_BLOCK)
 			found = 1;
@@ -100,11 +99,11 @@ static int	cast_ray(t_ray *ray, const t_player *p, const t_map *map,
 
 	/* distance */
 	if (hit->side == 0)
-		hit->dist = (ray->pos_x - p->pos.x
-				+ (1 - ray->dda.step_x) * 0.5f) / ray->dir.x;
+		hit->dist = (ray->pos.x - p->pos.x
+				+ (1 - ray->dda.step.x) * 0.5f) / ray->dir.x;
 	else
-		hit->dist = (ray->pos_y - p->pos.y
-				+ (1 - ray->dda.step_y) * 0.5f) / ray->dir.y;
+		hit->dist = (ray->pos.y - p->pos.y
+				+ (1 - ray->dda.step.y) * 0.5f) / ray->dir.y;
 
 	if (hit->dist < 0.001f)
 		hit->dist = 0.001f;
@@ -120,90 +119,6 @@ static int	cast_ray(t_ray *ray, const t_player *p, const t_map *map,
 	return (1);
 }
 
-static t_image	*get_wall_texture(const t_tile *tile,
-					const t_ray *ray, int side)
-{
-	t_image	*img;
-
-	if (side == 0)
-	{
-		if (ray->dir.x < 0)
-			img = tile->textures[DIR_EAST];
-		else
-			img = tile->textures[DIR_WEST];
-	}
-	else
-	{
-		if (ray->dir.y < 0)
-			img = tile->textures[DIR_SOUTH];
-		else
-			img = tile->textures[DIR_NORTH];
-	}
-	if (!img)
-		img = tile->textures[DIR_DEFAULT];
-	if (!img)
-		img = tile->textures[DIR_INVALID];
-	return (img);
-}
-
-static void	draw_column(t_render_task *task, uint32_t x,
-					t_ray *ray, t_hit *hit)
-{
-	const t_assets	*assets = task->renderer->assets;
-	const t_tile	*tile = &assets->tiles[hit->tile_id];
-	t_image	*tex = get_wall_texture(tile, ray, hit->side);
-
-	if (!tex)
-		tex = assets->invalid;
-
-	int line_height = (int)(HEIGHT / hit->dist);
-
-	int draw_start = -line_height / 2 + HEIGHT / 2;
-	if (draw_start < 0)
-		draw_start = 0;
-
-	int draw_end = line_height / 2 + HEIGHT / 2;
-	if (draw_end >= HEIGHT)
-		draw_end = HEIGHT - 1;
-
-	/* ceiling */
-	for (int y = 0; y < draw_start; y++)
-		set_pixel(x, y, assets->ceiling, task->frame);
-
-	/* texture X */
-	int tex_x = (int)(hit->wall_x * tex->width);
-
-	if (hit->side == 0 && ray->dir.x > 0)
-		tex_x = tex->width - tex_x - 1;
-	if (hit->side == 1 && ray->dir.y < 0)
-		tex_x = tex->width - tex_x - 1;
-
-	float step = (float)tex->height / (float)line_height;
-	float tex_pos = (draw_start - HEIGHT / 2 + line_height / 2) * step;
-
-	for (int y = draw_start; y < draw_end; y++)
-	{
-		int tex_y = (int)tex_pos;
-		if (tex_y < 0)
-			tex_y = 0;
-		if (tex_y >= (int)tex->height)
-			tex_y = tex->height - 1;
-
-		tex_pos += step;
-
-		uint32_t color = tex->data[tex_y * (tex->linesz / 4) + tex_x];
-
-		if (hit->side == 1)
-			color = (color >> 1) & 0x7F7F7F;
-
-		set_pixel(x, y, color, task->frame);
-	}
-
-	/* floor */
-	for (int y = draw_end; y < HEIGHT; y++)
-		set_pixel(x, y, assets->floor, task->frame);
-}
-
 static void	render_slice(t_render_task *task)
 {
 	uint32_t	x;
@@ -213,7 +128,7 @@ static void	render_slice(t_render_task *task)
 	x = task->x_start;
 	while (x <= task->x_end)
 	{
-		init_ray(&ray, task->world->player, x);
+		init_ray(&ray, task->world->player, task->frame->width, x);
 		if (cast_ray(&ray,
 				&task->world->player,
 				&task->renderer->assets->map,

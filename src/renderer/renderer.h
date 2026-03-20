@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 20:16:51 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/17 15:31:23 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/18 20:31:37 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 typedef struct s_renderer
 {
+	const t_options	*options;
 	const t_gfx		*gfx;
 	const t_assets	*assets;
 	t_world_buffer	*world_buffer;
@@ -38,14 +39,6 @@ typedef struct s_renderer
 	long			frame_time_us;
 	long			next_frame_time;
 }	t_renderer;
-
-typedef struct s_render_task {
-	t_renderer		*renderer;
-	const t_world	*world;
-	t_image			*frame;
-	uint32_t		x_start;
-	uint32_t		x_end;
-}	t_render_task;
 
 int				renderer_init(t_renderer *r, const t_options *opt);
 void			renderer_deinit(t_renderer *r);
