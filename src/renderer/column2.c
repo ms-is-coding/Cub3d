@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 14:50:44 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/20 19:41:22 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/21 13:08:29 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,28 @@ static uint32_t	get_tex_y(t_image *tex, float tex_pos)
 
 void	draw_ceiling(t_image *f, t_col_params p, uint32_t x, uint32_t color)
 {
+	float		dist;
 	uint32_t	i;
 
 	i = 0;
 	while (i < p.draw_start)
-		set_pixel(x, i++, color, f);
+	{
+		dist = (float)p.height / (float)(p.height - 2 * i);
+		set_pixel(x, i++, apply_fog(color, dist), f);
+	}
 }
 
 void	draw_floor(t_image *f, t_col_params p, uint32_t x, uint32_t color)
 {
+	float		dist;
 	uint32_t	i;
 
 	i = p.draw_end;
 	while (i < p.height)
-		set_pixel(x, i++, color, f);
+	{
+		dist = (float)p.height / (float)(2 * i - p.height);
+		set_pixel(x, i++, apply_fog(color, dist), f);
+	}
 }
 
 void	draw_wall(t_image *f, t_col_params p, uint32_t x)
@@ -80,6 +88,7 @@ void	draw_wall(t_image *f, t_col_params p, uint32_t x)
 		color = p.tex->data[tex_pos.y * (p.tex->linesz / 4) + tex_pos.x];
 		if (p.hit->side == 1)
 			color = (color >> 1) & 0x7F7F7F;
+		color = apply_fog(color, p.hit->dist);
 		set_pixel(x, y, color, f);
 		tex_idx += step;
 		y++;
