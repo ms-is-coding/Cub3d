@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:26:02 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/21 15:46:56 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/22 11:30:28 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 #include <string.h>
 
 #include "parser_internal.h"
+#include "utils/error.h"
 
 #include "parser.h"
-
-#include <stdio.h>
 
 enum {
 	SEC_TILES = 1 << 0,
@@ -84,7 +83,7 @@ static int	get_section_fns(t_str str, t_section_fns *f, char *found)
 			&& strncmp(str.ptr, g_sections[i].name, g_sections[i].len) == 0)
 		{
 			if (*found & g_sections[i].flag)
-				return (dprintf(2, "Section defined twice: [%.*s]\n", (int)str.len, str.ptr), 1);
+				return (print_error(MOD_PARSER, ERR_SECTION_DOUBLE_DEF, 1));
 			*found |= g_sections[i].flag;
 			f->parse = g_sections[i].parse;
 			f->validate = g_sections[i].validate;
@@ -93,7 +92,7 @@ static int	get_section_fns(t_str str, t_section_fns *f, char *found)
 		i++;
 	}
 	if (i == section_count)
-		return (dprintf(2, "Could not find valid section: [%.*s]\n", (int)str.len, str.ptr), 1);
+		return (print_error(MOD_PARSER, ERR_UNKNOWN_SECTION, 1));
 	return (0);
 }
 
@@ -110,9 +109,9 @@ int	parse_assets(t_assets *assets, const char *data, size_t size)
 	while (next_line(&p, &line, true, true))
 	{
 		if (get_section_name(&line))
-			continue;
+			continue ;
 		if (get_section_fns(line, &f, &flags))
-			return (1); //error, unknown section
+			return (1);
 		s = (t_parser){p.cur, p.cur};
 		while (next_line(&p, &line, true, true) && !is_section(line))
 			s.end = p.cur;
@@ -123,5 +122,5 @@ int	parse_assets(t_assets *assets, const char *data, size_t size)
 	}
 	if (SEC_ALL == (flags & SEC_ALL))
 		return (0);
-	return (dprintf(2, "Missing valid sections\n"), 1);
+	return (print_error(MOD_PARSER, ERR_MISSING_SECTION, 1));
 }

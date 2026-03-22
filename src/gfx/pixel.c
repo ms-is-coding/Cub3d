@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 15:01:42 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/18 17:48:01 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 15:30:15 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	add_pixel(uint32_t x, uint32_t y, unsigned int color, t_image *img)
 	color += *(img->data + offset);
 	if (color > 0xFFFFFF)
 		color = 0xFFFFFF;
-	*(img->data + offset)= color;
+	*(img->data + offset) = color;
 }
 
 /**
@@ -83,7 +83,7 @@ uint32_t	blend_colors(uint32_t src, uint32_t dst, float t)
 		return (src);
 	if (t >= 1)
 		return (dst);
-	r = (int)(((1 - t) * ((src>> 16) & 0xFF)) + (t * ((dst >> 16) & 0xFF)));
+	r = (int)(((1 - t) * ((src >> 16) & 0xFF)) + (t * ((dst >> 16) & 0xFF)));
 	g = (int)(((1 - t) * ((src >> 8) & 0xFF)) + (t * ((dst >> 8) & 0xFF)));
 	b = (int)(((1 - t) * (src & 0xFF)) + (t * (dst & 0xFF)));
 	return ((uint32_t)(r << 16 | g << 8 | b));

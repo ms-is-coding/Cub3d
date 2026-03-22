@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:28:34 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/21 12:50:15 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 10:39:35 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@
 # define MAX_ENTITIES 32
 
 # define PI			3.14159265358979323846f
-# define PI_2		(PI / 2.0f)
-# define PI_3_2		(3.0f * PI_2)
 
 # define MOVE_SPEED			0.005f
 # define ROT_SPEED			0.005f

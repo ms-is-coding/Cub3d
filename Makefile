@@ -6,7 +6,7 @@
 #    By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/21 18:33:48 by fadzejli          #+#    #+#              #
-#    Updated: 2026/03/21 12:53:09 by mattcarniel      ###   ########.fr        #
+#    Updated: 2026/03/22 18:07:37 by mattcarniel      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ CFLAGS_RELEASE := -O2 -fPIE -D_FORTIFY_SOURCE=3 -DNDEBUG \
 ifeq ($(MODE), release)
 	CFLAGS += $(CFLAGS_RELEASE)
 else ifeq ($(MODE), debug)
-	CFLAGS += $(CFLAGS_DEBUG)
+	CFLAGS += $(CFLAGS_DEBUG) -DDEBUG
 else ifeq ($(MODE), sanitize)
 	CFLAGS += $(CFLAGS_SANITIZE)
 else
@@ -56,16 +56,17 @@ OBJ_DIR := $(ROOT_DIR)/obj
 SRC_THREADS		:= $(addprefix threads/, init.c deinit.c run.c add.c)
 SRC_HOOKS		:= $(addprefix hooks/, init.c mouse.c keys.c)
 SRC_UTILS		:= $(addprefix utils/, time.c error.c file.c char_checks.c t_str.c)
-SRC_ASSETS		:= $(addprefix assets/, init.c deinit.c map.c)
+SRC_ASSETS		:= $(addprefix assets/, init.c deinit.c map.c  debug.c)
 SRC_PARSER		:= $(addprefix parser/, parse.c parse_utils.c \
 				  parse_tiles.c parse_textures.c parse_rgb.c parse_colors.c parse_map.c \
 				  validate_tiles.c validate_textures.c validate_colors.c validate_map.c)
 SRC_ENGINE		:= $(addprefix engine/, init.c deinit.c)
-SRC_RENDERER	:= $(addprefix renderer/, init.c deinit.c frame.c ray.c fog.c column.c column2.c minimap.c render.c)
-SRC_PHYSICS		:= $(addprefix physics/, init.c deinit.c update.c)
+SRC_RENDERER	:= $(addprefix renderer/, init.c deinit.c frame.c ray.c fog.c \
+				  column.c column2.c minimap.c render.c debug.c)
+SRC_PHYSICS		:= $(addprefix physics/, init.c deinit.c update.c debug.c)
 SRC_GFX			:= $(addprefix gfx/, init.c deinit.c present.c image.c pixel.c loop.c)
 SRC_WORLD		:= $(addprefix world/, init.c deinit.c snapshot.c)
-SRC_OPTIONS		:= $(addprefix options/, init.c int.c uint.c)
+SRC_OPTIONS		:= $(addprefix options/, init.c int.c uint.c debug.c)
 
 SRC_FILES		:= $(SRC_PARSER) $(SRC_ASSETS) $(SRC_THREADS) $(SRC_ENGINE) $(SRC_RENDERER) \
 					$(SRC_RAYCASTING) $(SRC_HOOKS) $(SRC_UTILS) $(SRC_PHYSICS) \
@@ -98,7 +99,7 @@ else
 	$(error "Unsupported OS: $(UNAME)")
 endif
 
-INCLUDES := -Iinclude -Isrc -I$(LIBFT_DIR) -I$(LIBMLX_DIR)
+INCLUDES := -Isrc -I$(LIBFT_DIR) -I$(LIBMLX_DIR)
 
 .PHONY: all
 all: $(NAME)

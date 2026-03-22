@@ -6,17 +6,19 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:39:13 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/18 14:09:15 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 10:40:28 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "common.h"
-#include "options/options.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include <stdio.h>
+
+#include "common.h"
+#include "utils/error.h"
+
+#include "options/options.h"
 
 t_option		g_options[] = {
 {
@@ -65,21 +67,21 @@ static int	get_option(t_options *opts, const char *key, const char *value)
 	const size_t	opt_count = sizeof(g_options) / sizeof(struct s_option);
 
 	if (!key)
-		return (1); //useless ?
+		return (1);
 	j = 0;
 	while (j < opt_count)
 	{
 		if (strcmp(g_options[j].name, key) == 0
-			|| strcmp(g_options[j].short_name, key) == 0)	
+			|| strcmp(g_options[j].short_name, key) == 0)
 			break ;
 		j++;
 	}
 	if (j == opt_count)
-		return (1); //unknown opt
+		return (print_error(MOD_OPTIONS, ERR_UNKNOWN_OPT, 1));
 	if (!value)
-		return (1); //no opt arg
+		return (print_error(MOD_OPTIONS, ERR_UNKNOWN_OPT_VALUE, 1));
 	if (g_options[j].parse(opts, g_options[j], value))
-		return (1); //bad opt arg
+		return (print_error(MOD_OPTIONS, ERR_BAD_OPT_VALUE, 1));
 	return (0);
 }
 
@@ -97,7 +99,7 @@ int	options_init(t_options *opts, int argc, char **argv)
 		if (*key != '-')
 		{
 			if (opts->file_path)
-				return (1); //file already set
+				return (print_error(MOD_OPTIONS, ERR_TOO_MANY_MAP_FILES, 1));
 			opts->file_path = key;
 			i++;
 			continue ;
@@ -108,6 +110,6 @@ int	options_init(t_options *opts, int argc, char **argv)
 		i += 2;
 	}
 	if (!opts->file_path)
-		return (1); //no map file
+		return (print_error(MOD_OPTIONS, ERR_NO_MAP_FILE, 1));
 	return (0);
 }

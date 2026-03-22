@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 11:56:11 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/18 14:45:32 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 11:24:43 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	parse_u8(t_str *s, unsigned char *out)
 
 	val = 0;
 	i = 0;
-
 	while (i < s->len && (s->ptr[i] >= '0' && s->ptr[i] <= '9'))
 	{
 		val = val * 10 + (uint32_t)(s->ptr[i] - '0');
@@ -33,7 +32,6 @@ static int	parse_u8(t_str *s, unsigned char *out)
 	}
 	if (i == 0)
 		return (1);
-
 	s->ptr += i;
 	s->len -= i;
 	*out = (unsigned char)val;
@@ -48,8 +46,6 @@ static int	skip_comma(t_str *line)
 	line->len--;
 	return (0);
 }
-
-#include <stdio.h>
 
 uint32_t	parse_rgb(t_str value)
 {

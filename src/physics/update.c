@@ -6,42 +6,19 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 21:49:02 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/21 15:45:33 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/22 18:04:51 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include <stdatomic.h>
-#include <stdio.h>
 
 #include "assets/assets.h"
 #include "world/world.h"
 #include "hooks/hooks.h"
-#include "utils/utils.h"
 #include "common.h"
 
 #include "physics.h"
-
-static void	print_steps_per_sec(void)
-{
-	static long	last_step_time = 0;
-	static int	step_count = 0;
-	long		now;
-	double		steps_per_sec;
-
-	step_count++;
-	now = get_timestamp_us();
-	if (last_step_time == 0)
-		last_step_time = now;
-	if (now - last_step_time >= 1000000L)
-	{
-		steps_per_sec = (double)step_count * 1000000.0
-			/ (double)(now - last_step_time);
-		dprintf(2, "Engine Steps/s: %.2f\n", steps_per_sec);
-		step_count = 0;
-		last_step_time = now;
-	}
-}
 
 static void	apply_input(t_world *world, t_input *input)
 {
@@ -86,11 +63,23 @@ static void	apply_collisions(t_world *world, t_map *map, t_tile *tiles)
 
 	next_pos.x = world->player.pos.x + world->player.vel.x;
 	next_pos.y = world->player.pos.y + world->player.vel.y;
-	if (is_solid(map, tiles, next_pos.x - ENTITY_SIZE, world->player.pos.y)
-		|| is_solid(map, tiles, next_pos.x + ENTITY_SIZE, world->player.pos.y))
+	if (is_solid(map, tiles,
+			next_pos.x - ENTITY_SIZE, world->player.pos.y - ENTITY_SIZE)
+		|| is_solid(map, tiles,
+			next_pos.x - ENTITY_SIZE, world->player.pos.y + ENTITY_SIZE)
+		|| is_solid(map, tiles,
+			next_pos.x + ENTITY_SIZE, world->player.pos.y - ENTITY_SIZE)
+		|| is_solid(map, tiles,
+			next_pos.x + ENTITY_SIZE, world->player.pos.y + ENTITY_SIZE))
 		world->player.vel.x = 0.0f;
-	if (is_solid(map, tiles, world->player.pos.x, next_pos.y - ENTITY_SIZE)
-		|| is_solid(map, tiles, world->player.pos.x, next_pos.y + ENTITY_SIZE))
+	if (is_solid(map, tiles,
+			world->player.pos.x - ENTITY_SIZE, next_pos.y - ENTITY_SIZE)
+		|| is_solid(map, tiles,
+			world->player.pos.x - ENTITY_SIZE, next_pos.y + ENTITY_SIZE)
+		|| is_solid(map, tiles,
+			world->player.pos.x + ENTITY_SIZE, next_pos.y - ENTITY_SIZE)
+		|| is_solid(map, tiles,
+			world->player.pos.x + ENTITY_SIZE, next_pos.y + ENTITY_SIZE))
 		world->player.vel.y = 0.0f;
 }
 
@@ -117,5 +106,5 @@ void	physics_update(t_physics *p, float dt)
 	apply_collisions(world, &p->assets->map, p->assets->tiles);
 	apply_inertia(world);
 	world_publish_snapshot(p->world_buffer);
-	print_steps_per_sec();
+	debug_print_steps_per_sec();
 }

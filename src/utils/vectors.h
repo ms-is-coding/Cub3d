@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:10 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/20 18:30:17 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 10:58:54 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef union u_vec3i {
 }	t_vec3i;
 
 typedef union u_vec2u {
-
 	struct {
 		uint32_t	x;
 		uint32_t	y;

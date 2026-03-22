@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:31:53 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/17 11:56:04 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 11:29:13 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include "assets/assets.h"
 #include "utils/t_str.h"
+#include "utils/error.h"
 
 #include "parser_internal.h"
 
@@ -37,13 +38,11 @@ static bool	add_tile(t_assets *assets, char id, t_tile_flags flags)
 	t_tile	*tile;
 
 	if (assets->tiles[(unsigned char)id - 32].flags)
-		return (false); //error: duplicate tile id
+		return (false);
 	tile = &assets->tiles[(unsigned char)id - 32];
 	tile->flags = (t_tile_flags)flags;
 	return (true);
 }
-
-#include <stdio.h>
 
 int	parse_tiles(t_assets *a, t_parser p)
 {
@@ -55,20 +54,20 @@ int	parse_tiles(t_assets *a, t_parser p)
 	while (next_line(&p, &line, true, true))
 	{
 		if (line.len == 0)
-			continue;
+			continue ;
 		if (!split_key_value(line, &key, &value))
-			return (dprintf(2, "Tiles: could not find seperate key and value: [%.*s]\n", (int)line.len, line.ptr), 1);
+			return (print_error(MOD_PARSER, ERR_NO_KEYVAL, 1));
 		if (!is_tile_key(key))
-			return (dprintf(2, "Tiles: key is not a tile: [%.*s]\n", (int)key.len, key.ptr), 1);
+			return (print_error(MOD_PARSER, ERR_TILE_INVALID_KEY, 1));
 		if (value.len == 0)
-			return (dprintf(2, "Tiles: no flags specified for tile '%c'.\n", *key.ptr), 1);
+			return (print_error(MOD_PARSER, ERR_TILE_NO_FLAG, 1));
 		flags = parse_tile_flags(value);
 		if (flags == TILE_F_NONE)
-			return (dprintf(2, "Tiles: specified flags for tile '%c' unknown: [%.*s]\n", *key.ptr, (int)value.len, value.ptr), 1);
+			return (print_error(MOD_PARSER, ERR_TILE_UNKNOWN_FLAG, 1));
 		if (!add_tile(a, key.ptr[0], flags))
-			return (dprintf(2, "Tiles: tile '%c' already has previous attribution.\n", *key.ptr), 1);
+			return (print_error(MOD_PARSER, ERR_TILE_DOUBLE_DEF, 1));
 	}
-	if (!add_tile(a, ' ', TILE_F_VOID)) //add default void tile
-		return (dprintf(2, "Tiles: tile '%c' already has previous attribution.\n", *key.ptr), 1);
+	if (!add_tile(a, ' ', TILE_F_VOID))
+		return (print_error(MOD_PARSER, ERR_TILE_DOUBLE_DEF, 1));
 	return (0);
 }

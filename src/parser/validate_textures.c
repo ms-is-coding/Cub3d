@@ -6,18 +6,18 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 14:54:43 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/15 19:59:47 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 11:30:05 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_internal.h"
+#include "utils/error.h"
 
-#include <stdio.h>
+#include "parser_internal.h"
 
 static int	validate_asset_textures(t_assets *a)
 {
 	if (!a->invalid)
-		dprintf(2, "Textures: warning: 'invalid' texture not set\n");
+		return (print_error(MOD_PARSER, ERR_TEX_NO_INVALID, 1));
 	return (0);
 }
 
@@ -25,16 +25,13 @@ static int	no_valid_textures(t_assets *a, size_t pos)
 {
 	if (a->invalid)
 		a->tiles[pos].textures[DIR_INVALID] = a->invalid;
-	if (a->tiles[pos].flags & TILE_F_RAY_BLOCK &&
-		!a->tiles[pos].textures[DIR_DEFAULT] &&
-		(!a->tiles[pos].textures[DIR_NORTH]
-		|| !a->tiles[pos].textures[DIR_SOUTH]
-		|| !a->tiles[pos].textures[DIR_WEST]
-		|| !a->tiles[pos].textures[DIR_EAST]))
-	{
-		dprintf(2, "Textures: warning: No default / full NSWE texture.s set for tile '%c'\n", (char)pos + 32);
-		return (1);
-	}
+	if (a->tiles[pos].flags & TILE_F_RAY_BLOCK
+		&& !a->tiles[pos].textures[DIR_DEFAULT]
+		&& (!a->tiles[pos].textures[DIR_NORTH]
+			|| !a->tiles[pos].textures[DIR_SOUTH]
+			|| !a->tiles[pos].textures[DIR_WEST]
+			|| !a->tiles[pos].textures[DIR_EAST]))
+		return (print_warning(MOD_PARSER, WARN_TEX_NO_DIR, 1));
 	return (0);
 }
 
@@ -48,7 +45,7 @@ static int	validate_tile_textures(t_assets *a)
 		if (a->tiles[i].flags == TILE_F_NONE)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		no_valid_textures(a, i);
 		i++;
@@ -58,7 +55,9 @@ static int	validate_tile_textures(t_assets *a)
 
 int	validate_textures(t_assets *a)
 {
-	validate_asset_textures(a);
-	validate_tile_textures(a);
+	if (validate_asset_textures(a))
+		return (1);
+	if (validate_tile_textures(a))
+		return (1);
 	return (0);
 }

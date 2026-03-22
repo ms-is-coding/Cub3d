@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:14:46 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/21 15:48:08 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/22 18:06:20 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,21 +90,5 @@ void	renderer_render(t_renderer *r)
 	}
 	renderer_dispatch_tasks(r);
 	renderer_publish_frame(r);
+	debug_print_fps(now);
 }
-
-
-// static long		last_fps_time = 0;
-// static int		frame_count = 0;
-
-	// DEBUG FPS
-	// frame_count++;
-	// if (last_fps_time == 0)
-	// 	last_fps_time = now;
-	// if (now - last_fps_time >= 1000000L) // 1 second
-	// {
-	// 	double fps = (double)frame_count * 1000000.0
-	// 		/ (double)(now - last_fps_time);
-	// 	dprintf(2, "FPS: %.2f\n", fps);
-	// 	frame_count = 0;
-	// 	last_fps_time = now;
-	// }

@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:37:42 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/20 17:18:17 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 17:59:26 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,11 @@ typedef struct s_option {
 typedef int		(*t_opt_parse_fn)(t_options *opts, t_option opt,
 			const char *const str);
 
-int	options_parse_i16(t_options *opts, t_option opt, const char *const str);
-int	options_parse_u32(t_options *opts, t_option opt, const char *const str);
+int		options_parse_i16(t_options *opts, t_option opt, const char *const str);
+int		options_parse_u32(t_options *opts, t_option opt, const char *const str);
 
-int	options_init(t_options *opt, int argc, char **argv);
+int		options_init(t_options *opt, int argc, char **argv);
+
+void	debug_print_options(t_options *options);
 
 #endif

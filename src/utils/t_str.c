@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 11:15:09 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/16 11:19:02 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 11:21:25 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ size_t	front_trim_str(t_str *str)
 	size_t	i;
 
 	i = 0;
-	while (str->len && is_whitespace(*str->ptr)) //whitespace trimming
+	while (str->len && is_whitespace(*str->ptr))
 	{
 		str->ptr++;
 		str->len--;
@@ -40,6 +40,14 @@ size_t	back_trim_str(t_str *str)
 	return (i);
 }
 
+void	offset_str(t_str *str, size_t offset)
+{
+	if (offset > str->len)
+		offset = str->len;
+	str->ptr += offset;
+	str->len -= offset;
+}
+
 bool	split_key_value(t_str entry, t_str *key, t_str *value)
 {
 	size_t	i;
@@ -51,11 +59,11 @@ bool	split_key_value(t_str entry, t_str *key, t_str *value)
 		return (false);
 	key->ptr = entry.ptr;
 	key->len = i;
-	while (key->len > 0 && is_whitespace(key->ptr[key->len - 1])) //trailing whitespace trimming, is e->klen > 0 necessary?
+	while (key->len > 0 && is_whitespace(key->ptr[key->len - 1]))
 		key->len--;
 	value->ptr = entry.ptr + i + 1;
 	value->len = entry.len - i - 1;
-	while (value->len > 0 && is_whitespace(value->ptr[0])) //leading whitespace trimming
+	while (value->len > 0 && is_whitespace(value->ptr[0]))
 	{
 		value->ptr++;
 		value->len--;
@@ -72,16 +80,16 @@ bool	split_key_option(t_str entry, t_str *key, t_str *option)
 		i++;
 	if (i >= entry.len || i == 0)
 	{
-		*option = T_STR_EMPTY;
+		*option = (t_str){NULL, 0};
 		return (false);
 	}
 	key->ptr = entry.ptr;
 	key->len = i;
-	while (key->len > 0 && is_whitespace(key->ptr[key->len - 1])) //trailing whitespace trimming, is e->klen > 0 necessary?
+	while (key->len > 0 && is_whitespace(key->ptr[key->len - 1]))
 		key->len--;
 	option->ptr = entry.ptr + i + 1;
 	option->len = entry.len - i - 1;
-	while (option->len > 0 && is_whitespace(option->ptr[0])) //leading whitespace trimming
+	while (option->len > 0 && is_whitespace(option->ptr[0]))
 	{
 		option->ptr++;
 		option->len--;

@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:35:52 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/18 17:42:51 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 15:17:21 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	free_tile_textures(t_assets *a)
 		if (a->tiles[i].flags == TILE_F_NONE)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		j = DIR_DEFAULT;
 		while (j < DIR_COUNT)

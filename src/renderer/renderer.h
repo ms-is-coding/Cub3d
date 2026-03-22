@@ -6,14 +6,14 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 20:16:51 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/18 20:31:37 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 10:52:35 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RENDERER_H
 # define RENDERER_H
 
-#include "assets/assets.h"
+# include "assets/assets.h"
 # include "common.h"
 # include "gfx/gfx.h"
 # include "options/options.h"
@@ -33,7 +33,6 @@ typedef struct s_renderer
 
 	atomic_int		ready_index;
 	int				render_index;
-	// bool MT;
 	int				fps_limit;
 	char			reserved[4];
 	long			frame_time_us;

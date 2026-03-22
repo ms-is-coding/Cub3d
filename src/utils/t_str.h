@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 11:11:52 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/16 11:25:51 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 11:21:35 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ typedef struct s_str
 	size_t		len;
 }	t_str;
 
-# define T_STR_EMPTY ((t_str){NULL, 0})
-
 size_t	front_trim_str(t_str *str);
 size_t	back_trim_str(t_str *str);
+void	offset_str(t_str *str, size_t offset);
 bool	split_key_value(t_str entry, t_str *key, t_str *value);
 bool	split_key_option(t_str entry, t_str *key, t_str *option);
 

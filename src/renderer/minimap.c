@@ -6,14 +6,16 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 12:20:56 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/21 15:53:41 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/22 18:00:13 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdint.h>
 #include <math.h>
+
 #include "assets/assets.h"
 #include "gfx/gfx.h"
+#include "utils/vectors.h"
 #include "world/world.h"
 #include "renderer_internal.h"
 
@@ -51,7 +53,10 @@ static void	draw_player_dot(t_image *frame, uint32_t cx, uint32_t cy)
 		while (dx <= 4)
 		{
 			if (dx * dx + dy * dy <= 16)
-				set_pixel(cx + (uint32_t)dx, cy + (uint32_t)dy, MM_PLAYER, frame);
+				set_pixel(cx + (uint32_t)dx,
+					cy + (uint32_t)dy,
+					MM_PLAYER,
+					frame);
 			dx++;
 		}
 		dy++;
@@ -60,28 +65,26 @@ static void	draw_player_dot(t_image *frame, uint32_t cx, uint32_t cy)
 
 void	draw_minimap(t_image *f, const t_world *w, const t_assets *a)
 {
-	uint32_t	px;
-	uint32_t	py;
-	float		world_x;
-	float		world_y;
+	t_vec2u	p;
+	t_vec2f	world_pos;
 
-	py = 0;
-	while (py < MM_SIZE)
+	p.y = 0;
+	while (p.y < MM_SIZE)
 	{
-		px = 0;
-		while (px < MM_SIZE)
+		p.x = 0;
+		while (p.x < MM_SIZE)
 		{
-			world_x = w->player.pos.x
-				+ ((float)px / MM_SIZE - 0.5f) * (MM_RADIUS * 2);
-			world_y = w->player.pos.y
-				+ ((float)py / MM_SIZE - 0.5f) * (MM_RADIUS * 2);
-			set_pixel(MM_OFFSET + px, MM_OFFSET + py,
+			world_pos.x = floorf(w->player.pos.x
+					+ ((float)p.x / MM_SIZE - 0.5f) * (MM_RADIUS * 2.0f));
+			world_pos.y = floorf(w->player.pos.y
+					+ ((float)p.y / MM_SIZE - 0.5f) * (MM_RADIUS * 2.0f));
+			set_pixel(MM_OFFSET + p.x, MM_OFFSET + p.y,
 				get_tile_color(&a->map, a->tiles,
-					(int32_t)world_x, (int32_t)world_y),
+					(int32_t)world_pos.x, (int32_t)world_pos.y),
 				f);
-			px++;
+			p.x++;
 		}
-		py++;
+		p.y++;
 	}
 	draw_player_dot(f, MM_OFFSET + MM_SIZE / 2,
 		MM_OFFSET + MM_SIZE / 2);

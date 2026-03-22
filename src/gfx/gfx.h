@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 13:11:57 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/18 20:32:28 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 15:30:32 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_gfx {
 typedef struct s_image {
 	void		*ptr;
 	uint32_t	*data;
-	uint32_t	width; // investigate the usefulness (vs linesz)
+	uint32_t	width;
 	uint32_t	height;
 	uint32_t	bpp;
 	uint32_t	linesz;
@@ -44,6 +44,5 @@ void		gfx_deinit(t_gfx *gfx);
 
 void		gfx_present(const t_gfx *gfx, const t_image *img);
 void		gfx_loop(t_gfx *gfx, int (*fn)(void), void *userdata);
-
 
 #endif

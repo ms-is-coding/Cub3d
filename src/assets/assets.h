@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 19:26:08 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/20 17:12:16 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 16:56:11 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 
 # include "../gfx/gfx.h"
 
+# define RGB_ERROR		UINT32_MAX
+# define RGB_INVALID	0xFF00FF
+
 typedef enum e_tile_flags
 {
 	TILE_F_NONE			= 0,
@@ -28,7 +31,6 @@ typedef enum e_tile_flags
 	TILE_F_RAY_BLOCK	= 1 << 3,
 	TILE_F_DOOR			= 1 << 4,
 	TILE_F_PLAYER		= 1 << 5,
-
 	TILE_F_WALL			= TILE_F_SOLID | TILE_F_RAY_BLOCK,
 }	t_tile_flags;
 
@@ -87,5 +89,7 @@ int		assets_init(t_assets *assets, const char *file_path);
 void	assets_deinit(t_assets *assets);
 
 t_tile	*map_tile_at(t_assets *assets, size_t x, size_t y);
+
+void	debug_print_assets(t_assets *a);
 
 #endif

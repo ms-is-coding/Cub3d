@@ -6,15 +6,17 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 12:44:43 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/18 17:48:41 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 10:52:12 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "common.h"
 #include "gfx/gfx.h"
-#include "renderer.h"
 #include "options/options.h"
 #include "threads/threads.h"
+#include "utils/error.h"
+
+#include "renderer.h"
 
 static int	renderer_init_framebuffers(t_renderer *r, const t_options *opt)
 {
@@ -24,15 +26,15 @@ static int	renderer_init_framebuffers(t_renderer *r, const t_options *opt)
 	while (i < FRAMEBUFFER_COUNT)
 	{
 		if (gfx_image_create(
-			r->gfx->mlx, 
-			&r->framebuffers[i],
-			opt->width,
-			opt->height)
+				r->gfx->mlx,
+				&r->framebuffers[i],
+				opt->width,
+				opt->height)
 			!= 0)
 		{
 			while (i-- > 0)
 				gfx_image_destroy(r->gfx->mlx, &r->framebuffers[i]);
-			return (1);
+			return (print_error(MOD_RENDERER, ERR_IMG_CREATE, 1));
 		}
 		i++;
 	}

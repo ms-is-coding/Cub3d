@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 14:19:51 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/21 11:43:39 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 18:04:28 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <pthread.h>
 # include <stdatomic.h>
 
-#include "assets/assets.h"
+# include "assets/assets.h"
 # include "world/world.h"
 # include "hooks/hooks.h"
 
@@ -32,5 +32,7 @@ typedef struct s_physics {
 int		physics_init(t_physics *p);
 void	physics_deinit(t_physics *p);
 void	physics_update(t_physics *p, float dt);
+
+void	debug_print_steps_per_sec(void);
 
 #endif

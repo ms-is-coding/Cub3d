@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 12:46:03 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/18 17:38:06 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 11:36:52 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include <time.h>
 
 #include "physics.h"
-#include "utils/utils.h"
 #include "world/world.h"
+#include "utils/utils.h"
+#include "utils/error.h"
 
 __attribute__((always_inline))
 inline void	sleep_ns(long ns)
@@ -56,15 +57,15 @@ static void	*physics_thread(t_physics *p)
 int	physics_init(t_physics *p)
 {
 	if (!p || !p->world_buffer || !p->input)
-		return (1);
+		return (print_error(MOD_PHYSICS, ERR_NULL_PTR, 1));
 	world_get_write_snapshot(p->world_buffer);
 	world_get_write_snapshot(p->world_buffer);
 	atomic_store(&p->running, 1);
 	if (pthread_create(
-		&p->thread,
-		NULL,
-		(void *(*)(void *))(intptr_t)physics_thread,
+			&p->thread,
+			NULL,
+			(void *(*)(void *))(intptr_t)physics_thread,
 		p) != 0)
-		return (1); //error: failed to create thread
+		return (print_error(MOD_PHYSICS, ERR_PERROR, 1));
 	return (0);
 }

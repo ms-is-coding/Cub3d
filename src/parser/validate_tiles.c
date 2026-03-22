@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 14:54:45 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/18 14:51:00 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/21 18:29:03 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include <stdint.h>
 
 #include "assets/assets.h"
-#include "parser_internal.h"
+#include "utils/error.h"
 
-#include <stdio.h>
+#include "parser_internal.h"
 
 __attribute__((unused))
 static bool	has_no_conflicts(t_tile tile)
@@ -45,8 +45,8 @@ int	validate_tiles(t_assets *a)
 		i++;
 	}
 	if (!(flags & TILE_F_WALL))
-		return (dprintf(2, "Tiles: no wall tile available\n"), 1);
+		return (print_error(MOD_PARSER, ERR_TILE_NO_WALL, 1));
 	if (!(flags & TILE_F_PLAYER))
-		return (dprintf(2, "Tiles: no player tile available\n"), 1);
+		return (print_error(MOD_PARSER, ERR_TILE_NO_PLAYER, 1));
 	return (0);
 }

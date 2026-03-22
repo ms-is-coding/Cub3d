@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:56:20 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/21 15:42:54 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/22 10:50:42 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,16 @@
 
 static void	init_dda(t_ray *ray, const t_player player)
 {
-	if (ray->dir.x < 0)
-	{
-		ray->dda.step.x = -1;
-		ray->dda.delta.x = fabsf(1.0f / ray->dir.x);
-		ray->dda.side.x = (player.pos.x - (float)ray->pos.x) * ray->dda.delta.x;
-	}
-	else
-	{
-		ray->dda.step.x = 1;
-		ray->dda.delta.x = fabsf(1.0f / ray->dir.x);
-		ray->dda.side.x = ((float)ray->pos.x + 1.0f - player.pos.x) * ray->dda.delta.x;
-	}
-	if (ray->dir.y < 0)
-	{
-		ray->dda.step.y = -1;
-		ray->dda.delta.y = fabsf(1.0f / ray->dir.y);
-		ray->dda.side.y = (player.pos.y - (float)ray->pos.y) * ray->dda.delta.y;
-	}
-	else
-	{
-		ray->dda.step.y = 1;
-		ray->dda.delta.y = fabsf(1.0f / ray->dir.y);
-		ray->dda.side.y = ((float)ray->pos.y + 1.0f - player.pos.y) * ray->dda.delta.y;
-	}
+	ray->dda.step.x = 1 - 2 * (ray->dir.x < 0);
+	ray->dda.delta.x = fabsf(1.0f / ray->dir.x);
+	ray->dda.side.x = ((ray->dir.x < 0) * (player.pos.x - (float)ray->pos.x)
+			+ (ray->dir.x >= 0) * ((float)ray->pos.x + 1.0f - player.pos.x))
+		* ray->dda.delta.x;
+	ray->dda.step.y = 1 - 2 * (ray->dir.y < 0);
+	ray->dda.delta.y = fabsf(1.0f / ray->dir.y);
+	ray->dda.side.y = ((ray->dir.y < 0) * (player.pos.y - (float)ray->pos.y)
+			+ (ray->dir.y >= 0) * ((float)ray->pos.y + 1.0f - player.pos.y))
+		* ray->dda.delta.y;
 }
 
 static void	init_ray(t_ray *ray, const t_player p, uint32_t width)

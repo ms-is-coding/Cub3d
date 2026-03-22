@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 11:02:33 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/18 14:28:17 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/21 18:15:04 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
+
+#include "error.h"
 
 #include "file.h"
 
@@ -50,23 +52,23 @@ int	map_file(t_file *file, const char *path)
 	int			fd;
 
 	if (!file)
-		return (1); //invalid pointer
+		return (print_error(MOD_UTILS, ERR_NULL_PTR, 1));
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
 		close(fd);
-		return (1); //do a print_error here
+		return (print_error(MOD_UTILS, ERR_PERROR, 1));
 	}
 	fstat(fd, &st);
 	if (st.st_size <= 0)
 	{
 		close(fd);
-		return (1); //to be defined in error.h
+		return (print_error(MOD_UTILS, ERR_PERROR, 1));
 	}
 	file->data = mmap(NULL, (size_t)st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
 	close(fd);
 	if (file->data == MAP_FAILED)
-		return (1); //to be defined in error.h
+		return (print_error(MOD_UTILS, ERR_PERROR, 1));
 	file->size = (size_t)st.st_size;
 	return (0);
 }

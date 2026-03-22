@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 18:02:10 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/18 17:46:42 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 15:29:30 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	gfx_image_destroy(void *mlx, t_image *img)
 	free(img);
 }
 
-t_image	*get_image_from_xpm(void *mlx, char *file) 
+t_image	*get_image_from_xpm(void *mlx, char *file)
 {
 	t_image	*img;
 
@@ -35,19 +35,19 @@ t_image	*get_image_from_xpm(void *mlx, char *file)
 	if (!img)
 		return (NULL);
 	img->ptr = mlx_xpm_file_to_image(
-		mlx,
-		file,
-		(int *)&img->width,
-		(int *)&img->height
-	);
+			mlx,
+			file,
+			(int *)&img->width,
+			(int *)&img->height
+			);
 	if (!img->ptr)
 		return (free(img), NULL);
 	img->data = (uint32_t *)(void *)mlx_get_data_addr(
-		img->ptr,
-		(int *)&img->bpp,
-		(int *)&img->linesz,
-		&(int){0}
-		);
+			img->ptr,
+			(int *)&img->bpp,
+			(int *)&img->linesz,
+			&(int){0}
+			);
 	if (!img->data)
 		return (gfx_image_destroy(mlx, img), NULL);
 	return (img);
@@ -57,18 +57,18 @@ int	gfx_image_create(void *mlx, t_image *img,
 		uint32_t width, uint32_t height)
 {
 	img->ptr = mlx_new_image(
-		mlx,
-		(int)width,
-		(int)height
-		);
+			mlx,
+			(int)width,
+			(int)height
+			);
 	if (!img->ptr)
 		return (1);
 	img->data = (uint32_t *)(void *)mlx_get_data_addr(
-		img->ptr,
-		(int *)&img->bpp,
-		(int *)&img->linesz,
-		&(int){0}
-		);
+			img->ptr,
+			(int *)&img->bpp,
+			(int *)&img->linesz,
+			&(int){0}
+			);
 	img->width = width;
 	img->height = height;
 	return (0);

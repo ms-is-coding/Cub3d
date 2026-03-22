@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 12:45:00 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/18 17:43:40 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 10:57:20 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void	renderer_deinit(t_renderer *r)
 {
-	int i;
+	int	i;
 
 	if (!r)
 		return ;

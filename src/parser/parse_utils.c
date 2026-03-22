@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 09:47:06 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/17 11:53:52 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 11:28:42 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,16 @@ bool	is_tile_key(t_str key)
 		&& key.ptr[0] != ']');
 }
 
-uint32_t parse_dir_option(t_str option)
+uint32_t	parse_dir_option(t_str option)
 {
-	static const t_dir tiles['z' - 'a' + 1] = {
-		['n' - 'a'] = DIR_NORTH,
-		['s' - 'a'] = DIR_SOUTH,
-		['w' - 'a'] = DIR_WEST,
-		['e' - 'a'] = DIR_EAST,
-		['d' - 'a'] = DIR_DEFAULT,
+	static const t_dir	tiles['z' - 'a' + 1] = {
+	['n' - 'a'] = DIR_NORTH,
+	['s' - 'a'] = DIR_SOUTH,
+	['w' - 'a'] = DIR_WEST,
+	['e' - 'a'] = DIR_EAST,
+	['d' - 'a'] = DIR_DEFAULT,
 	};
-
-	char	c;
+	char				c;
 
 	if (option.len == 0)
 		return (DIR_DEFAULT);

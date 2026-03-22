@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 14:50:44 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/21 13:08:29 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 10:56:34 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	draw_wall(t_image *f, t_col_params p, uint32_t x)
 		return ;
 	tex_pos.x = get_tex_x(p.tex, p);
 	step = (float)p.tex->height / (float)p.line_height;
-	tex_idx = (float)(p.draw_start - p.height / 2 + p.line_height / 2) * step;
+	tex_idx = ((float)(p.draw_start - p.height / 2 + p.line_height / 2)) * step;
 	y = p.draw_start;
 	while (y < p.draw_end)
 	{

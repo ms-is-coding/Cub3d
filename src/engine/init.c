@@ -6,19 +6,41 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 12:31:29 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/21 11:43:48 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 19:04:37 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 
-#include "engine.h"
 #include "gfx/gfx.h"
 #include "assets/assets.h"
 #include "hooks/hooks.h"
 #include "world/world.h"
 #include "physics/physics.h"
 #include "renderer/renderer.h"
+
+#include "engine.h"
+
+#ifdef DEBUG
+
+# include <stdio.h>
+
+static void	debug_print_engine(t_engine *e)
+{
+	dprintf(2, "\n\t=== Engine Debug Info ===\n");
+	debug_print_options(&e->opt);
+	debug_print_assets(&e->assets);
+	dprintf(2, "\n\t=========================\n");
+}
+
+#else
+
+static void	debug_print_engine(t_engine *e)
+{
+	(void)e;
+}
+
+#endif
 
 static void	init_engine_pointers(t_engine *e)
 {
@@ -48,5 +70,6 @@ int	engine_init(t_engine *e, int argc, char **argv)
 		engine_deinit(e);
 		return (1);
 	}
+	debug_print_engine(e);
 	return (0);
 }

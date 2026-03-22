@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 16:18:33 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/18 20:33:16 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/22 11:36:28 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdbool.h>
 # include <stdint.h>
 
-#include "engine/engine.h"
+# include "engine/engine.h"
 
 # if defined(__linux__)
 #  include <X11/X.h>

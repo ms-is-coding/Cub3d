@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 12:38:53 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/21 17:03:29 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/22 18:06:14 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,18 @@ typedef struct s_col_params
 	t_image		*tex;
 }	t_col_params;
 
-void	draw_minimap(t_image *f, const t_world *w, const t_assets *a);
+void		draw_minimap(t_image *f, const t_world *w, const t_assets *a);
 
-int		cast_ray(t_ray *ray, t_hit *hit, t_render_task *task);
+int			cast_ray(t_ray *ray, t_hit *hit, t_render_task *task);
 
 uint32_t	apply_fog(uint32_t color, float distance);
 
-void	draw_ceiling(t_image *f, t_col_params p, uint32_t x, uint32_t color);
-void	draw_floor(t_image *f, t_col_params p, uint32_t x, uint32_t color);
-void	draw_wall(t_image *f, t_col_params p, uint32_t x);
+void		draw_ceiling(t_image *f, t_col_params p, uint32_t x, uint32_t c);
+void		draw_floor(t_image *f, t_col_params p, uint32_t x, uint32_t c);
+void		draw_wall(t_image *f, t_col_params p, uint32_t x);
 
-void	draw_column(t_render_task *task, t_ray *ray, t_hit *hit);
+void		draw_column(t_render_task *task, t_ray *ray, t_hit *hit);
+
+void		debug_print_fps(double now);
 
 #endif

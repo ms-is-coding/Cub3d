@@ -6,7 +6,7 @@
 /*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 12:47:58 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/21 12:52:12 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/21 17:05:56 by mattcarniel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 #include "common.h"
 #include "gfx/gfx.h"
+
+#include "renderer_internal.h"
 
 uint32_t	apply_fog(uint32_t color, float distance)
 {
