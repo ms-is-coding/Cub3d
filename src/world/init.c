@@ -5,13 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/20 13:19:13 by macarnie          #+#    #+#             */
-/*   Updated: 2026/03/27 10:45:38 by macarnie         ###   ########.fr       */
+/*   Created: 2026/02/20 13:19:13 by smamalig          #+#    #+#             */
+/*   Updated: 2026/03/28 00:27:32 by smamalig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
-
+#include <math.h>
 #include "assets/assets.h"
 #include "utils/error.h"
 
@@ -24,12 +24,12 @@ static void	set_player(t_world *world, const t_map *map)
 	world->player.pos.y = (float)(map->player_pos / map->width) + 0.5f;
 	world->player.vel.x = 0.0f;
 	world->player.vel.y = 0.0f;
-	world->player.yaw = (map->data[map->player_pos] == 'N') * 270.0f
-		+ (map->data[map->player_pos] == 'S') * 90.0f
+	world->player.yaw = (map->data[map->player_pos] == 'N') * (float)(3.0 * M_PI_2)
+		+ (map->data[map->player_pos] == 'S') * (float)M_PI_2
 		+ (map->data[map->player_pos] == 'E') * 0.0f
-		+ (map->data[map->player_pos] == 'W') * 180.0f;
+		+ (map->data[map->player_pos] == 'W') * (float)M_PI;
 	world->player.yaw_vel = 0.0f;
-	world->player.fov = 90.0f;
+	world->player.fov = (float)M_PI_2 * 0.9f;
 }
 
 static int	set_entities(t_world *world, const t_map *map, const t_tile *tiles)
