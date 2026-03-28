@@ -6,7 +6,7 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:05:44 by macarnie          #+#    #+#             */
-/*   Updated: 2026/03/27 10:48:26 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/27 19:57:13 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct __attribute__((aligned(8))) s_player
 {
 	t_vec2f	pos;
 	t_vec2f	vel;
+	float	width;
+	float	height;
 	float	yaw;
 	float	yaw_vel;
 	float	fov;

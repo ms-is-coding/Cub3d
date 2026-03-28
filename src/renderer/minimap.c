@@ -62,7 +62,8 @@ static void	draw_border_line(t_image *f, uint32_t cx, uint32_t cy, float angle)
 			MM_BORDER, f);
 }
 
-static void	draw_border_arc(t_image *f, uint32_t cx, uint32_t cy, float half_fov)
+static void	draw_border_arc(t_image *f, uint32_t cx,
+		uint32_t cy, float half_fov)
 {
 	const int32_t	r = MM_SIZE / 2 - 1;
 	float			angle;
@@ -127,5 +128,6 @@ void	draw_minimap(t_image *f, const t_world *w, const t_assets *a)
 					(int32_t)world_pos.y), f);
 		}
 	}
-	draw_border(f, (uint32_t)begin.x + half_sz, (uint32_t)begin.y + half_sz, half_fov);
+	draw_border(f, (uint32_t)begin.x + half_sz,
+		(uint32_t)begin.y + half_sz, half_fov);
 }

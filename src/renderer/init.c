@@ -6,7 +6,7 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 12:44:43 by macarnie          #+#    #+#             */
-/*   Updated: 2026/03/27 11:12:55 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/27 16:57:15 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	renderer_init(t_renderer *r, const t_options *opt)
 {
 	if (renderer_init_framebuffers(r, opt))
 		return (1);
-	if (threadpool_init(&r->pool, opt->thread_count))
+	if (threadpool_init(&r->pool, (int *)(intptr_t) & opt->thread_count))
 		return (1);
 	if (opt->fps > 0)
 	{

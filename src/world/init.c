@@ -6,11 +6,12 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:19:13 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/28 00:27:32 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/28 18:10:41 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
+#include <stdio.h>
 #include <math.h>
 #include "assets/assets.h"
 #include "utils/error.h"
@@ -20,14 +21,19 @@
 
 static void	set_player(t_world *world, const t_map *map)
 {
+	world->player = (t_player){0};
 	world->player.pos.x = (float)(map->player_pos % map->width) + 0.5f;
 	world->player.pos.y = (float)(map->player_pos / map->width) + 0.5f;
 	world->player.vel.x = 0.0f;
 	world->player.vel.y = 0.0f;
-	world->player.yaw = (map->data[map->player_pos] == 'N') * (float)(3.0 * M_PI_2)
-		+ (map->data[map->player_pos] == 'S') * (float)M_PI_2
-		+ (map->data[map->player_pos] == 'E') * 0.0f
-		+ (map->data[map->player_pos] == 'W') * (float)M_PI;
+	world->player.width = ENTITY_SIZE * 2.0f;
+	world->player.height = ENTITY_SIZE * 2.0f;
+	printf("=> %c\n", map->data[map->player_pos] + 32);
+	world->player.yaw
+		= (map->data[map->player_pos] + 32 == 'N') * (float)(3.0 * M_PI_2)
+		+ (map->data[map->player_pos] + 32 == 'S') * (float)(1.0 * M_PI_2)
+		+ (map->data[map->player_pos] + 32 == 'E') * 0.0f
+		+ (map->data[map->player_pos] + 32 == 'W') * (float)M_PI;
 	world->player.yaw_vel = 0.0f;
 	world->player.fov = (float)M_PI_2 * 0.9f;
 }
