@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 11:30:34 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/30 20:18:50 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/30 21:30:39 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	add_tile_texture(t_assets *a, t_str key, t_str option, t_str path)
 		return (print_error(MOD_PARSER, ERR_TEX_DOUBLE_DEF, 1));
 	if (path.len >= sizeof(buf))
 		return (print_error(MOD_PARSER, ERR_TEX_PATH_TOO_LONG, 1));
-	memcpy(buf, path.ptr, path.len);
+	ft_memcpy(buf, path.ptr, path.len);
 	buf[path.len] = '\0';
 	tile->textures[dir] = get_image_from_xpm(a->gfx->mlx, buf);
 	if (tile->textures[dir] == NULL)
@@ -61,13 +61,13 @@ static int	add_asset_texture(t_assets *a, t_str key, t_str option, t_str path)
 	(void)option;
 	if (key.len < 2)
 		return (print_error(MOD_PARSER, ERR_TEX_INVALID_KEY, 1));
-	if (key.len == 7 && strncmp(key.ptr, "invalid", 7) == 0)
+	if (key.len == 7 && ft_strncmp(key.ptr, "invalid", 7) == 0)
 		tex = &a->invalid;
-	else if (key.len == 6 && strncmp(key.ptr, "skybox", 6) == 0)
+	else if (key.len == 6 && ft_strncmp(key.ptr, "skybox", 6) == 0)
 		tex = &a->skybox;
-	else if (key.len == 5 && strncmp(key.ptr, "floor", 5) == 0)
+	else if (key.len == 5 && ft_strncmp(key.ptr, "floor", 5) == 0)
 		tex = &a->floor_tex;
-	else if (key.len == 7 && strncmp(key.ptr, "ceiling", 7) == 0)
+	else if (key.len == 7 && ft_strncmp(key.ptr, "ceiling", 7) == 0)
 		tex = &a->ceiling_tex;
 	else
 		return (print_error(MOD_PARSER, ERR_TEX_NO_ADDR, 1));
@@ -75,7 +75,7 @@ static int	add_asset_texture(t_assets *a, t_str key, t_str option, t_str path)
 		return (print_error(MOD_PARSER, ERR_TEX_DOUBLE_DEF, 1));
 	if (path.len >= sizeof(buf))
 		return (print_error(MOD_PARSER, ERR_TEX_PATH_TOO_LONG, 1));
-	memcpy(buf, path.ptr, path.len);
+	ft_memcpy(buf, path.ptr, path.len);
 	buf[path.len] = '\0';
 	*tex = get_image_from_xpm(a->gfx->mlx, buf);
 	if (*tex == NULL)

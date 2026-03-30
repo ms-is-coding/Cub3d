@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 12:31:29 by macarnie          #+#    #+#             */
-/*   Updated: 2026/03/27 10:49:45 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/30 19:55:24 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "world/world.h"
 #include "physics/physics.h"
 #include "renderer/renderer.h"
-
 #include "engine.h"
 
 #ifdef DEBUG
@@ -56,7 +55,7 @@ static void	init_engine_pointers(t_engine *e)
 
 int	engine_init(t_engine *e, int argc, char **argv)
 {
-	memset(e, 0, sizeof(t_engine));
+	ft_memset(e, 0, sizeof(t_engine));
 	if (options_init(&e->opt, argc, argv))
 		return (1);
 	init_engine_pointers(e);

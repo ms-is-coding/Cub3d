@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   deinit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:19:40 by macarnie          #+#    #+#             */
-/*   Updated: 2026/03/27 10:48:04 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/30 19:39:33 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ void	world_buffer_deinit(t_world_buffer *wb)
 {
 	if (!wb)
 		return ;
-	memset(wb, 0, sizeof(t_world_buffer));
+	ft_memset(wb, 0, sizeof(t_world_buffer));
 }

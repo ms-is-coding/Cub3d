@@ -1,4 +1,4 @@
-This project has been created as part of the 42 curriculum by fadzejli, macarnie
+This project has been created as part of the 42 curriculum by fadzejli and macarnie
 
 # Cub3D
 
@@ -8,24 +8,9 @@ Cub3D is a raycasting project inspired by Wolfenstein 3D, developed as part of t
 
 It uses **raycasting** to simulate a 3D environment where the player can move inside a textured maze.
 
-## Features
-
-* Real time first person 3D rendering
-* 4 wall textures (North, South, East, West)
-* Custom floor and ceiling colors
-* Movement with W, A, S, D and arrow keys
-* `.cub` file parsing and validation
-* Wall collision
-* Proper window and exit handling
-
-### Bonus
-
-* Minimap
-* Doors
-* Animated sprites
-* Mouse rotation
-
 ## Compilation
+
+The project is written in C and uses the MiniLibX library for graphics. It also includes a custom libft library for utility functions.
 
 ```bash
 make
@@ -35,16 +20,90 @@ make re
 make bonus
 ```
 
-## Usage
+### Execution
+
+You can run the program with a `.cub` map file as an argument. You can find example maps in the `maps/` directory.
+
+Example: 
 
 ```bash
-./cub3D <map.cub>
+./cub3D <map.cub> [OPTIONS]...
 ```
 
-Example:
+The map file defines everything about the game, including textures, colors, and the layout of the maze.
+
+The program will open a window and render the 3D view based on the provided map. You can move around using the keyboard controls, or the mouse.
+
+### Options
+
+You can run the game with various options:
 
 ```bash
-./cub3D maps/basic.cub
+./cub3D <filename.cub> -W 1000 -H 800 -j 0
+```
+
+The options include:
+* `-W <width>`: Set the window width (default: 800)
+* `-H <height>`: Set the window height (default: 600)
+* `-j <threads>`: Set the number of threads for rendering (default: 0, max: 128)
+* `-f`: Set fps for window title (default: 60, max: 165)
+* `-h`: Display help message
+
+## Map File Format : 4 sections
+
+The `.cub` file format is a text file that defines the textures, the game's components, the colors, and a 2D grid representing the map layout. 
+
+It consists of three 4 sections, each with specific rules and formats:
+
+### _[TILES]
+
+Defines the characters used in the map grid and their meanings (e.g., `0` for empty space, `1` for wall, `N S E W` for player start position and direction).
+
+```
+[TILES]
+
+1=wall
+N=player
+0=floor
+2=wall
+```
+
+### _[TEXTURES]
+
+Defines the file paths for the wall textures (North, South, East, West).
+
+```
+[TEXTURES]
+
+1:N=path_to_texture
+1:S=path_to_texture
+1:E=path_to_texture
+1:W=path_to_texture
+invalid:./textures/invalid.xpm
+```
+
+### _[COLORS]
+
+Define the RGB colors for the floor and ceiling.
+
+```
+[COLORS]
+
+F=R,G,B
+C=R,G,B
+```
+
+### _[MAP]
+
+Defines the layout of the map using the characters defined in the TILES section. The map must be closed by walls, contain only one player, and have no invalid characters.
+
+```
+[MAP]
+
+111111
+100001
+1000N1
+111111
 ```
 
 ## Controls
@@ -58,36 +117,14 @@ Example:
 
 * ESC or window close button
 
-## .cub File Format
+### Bonus
 
-Defines textures, colors, and map.
+* Minimap
+* Doors
+* Animated sprites
+* Mouse rotation
 
-### Textures
-
-```
-NO path_to_texture
-SO path_to_texture
-WE path_to_texture
-EA path_to_texture
-```
-
-### Colors
-
-```
-F R,G,B
-C R,G,B
-```
-
-### Map
-
-Grid characters:
-
-* `0` empty space
-* `1` wall
-* `N S E W` player start position and direction
-* space: outside map
-
-Rules:
+## Rules
 
 * Map must be closed by walls
 * Only one player
@@ -97,29 +134,68 @@ Rules:
 Example:
 
 ```
-NO ./textures/north.xpm
-SO ./textures/south.xpm
-WE ./textures/west.xpm
-EA ./textures/east.xpm
+[TILES]
 
-F 220,100,0
-C 225,30,0
+1=wall
+N=player
+0=floor
 
-111111
-100001
-1000N1
-111111
+[TEXTURES]
+
+invalid=./textures/invalid.xpm
+
+[COLORS]
+
+[MAP]
+
+111111111111111111111
+100000000000000000001
+101111111001111111101
+101     1001      101
+101     1001      101
+101     1001      101
+101     1001      101
+101     1001      101
+101     1001      101
+101     1001      101
+101111111001111111101
+100000000N00000000001
+111111111111111111111
 ```
 
 ## Project Structure
 
 ```
-cub3D/
-inc/
-srcs/
-maps/
-textures/
-libft/
+.
+├── lib
+│   ├── libft/
+│   ├── mlx_linux/
+│   └── mlx_opengl/
+├── maps/
+│   ├── basic.cub
+│   ├── minimal.cub
+│   ├── ...
+│   └── template.cub
+├── src/
+│   ├── common.h
+│   ├── main.c
+│   ├── assets/
+│   ├── engine/
+│   ├── gfx/
+│   ├── hooks/
+│   ├── word/
+│   ├── options/
+│   ├── parser/
+│   ├── physics/
+│   ├── renderer/
+│   ├── threads/
+│   └── utils/
+├── textures/
+├── Makefile
+└── README.md
+
+31 directories, 362 files
+
 ```
 
 ## Error Handling

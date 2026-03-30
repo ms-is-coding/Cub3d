@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:39:13 by macarnie          #+#    #+#             */
-/*   Updated: 2026/03/27 19:37:17 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/30 19:41:28 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ static int	get_option(t_options *opts, const char *key, const char *value)
 	j = 0;
 	while (j < opt_count)
 	{
-		if (strcmp(g_options[j].name, key) == 0
-			|| strcmp(g_options[j].short_name, key) == 0)
+		if (ft_strcmp(g_options[j].name, key) == 0
+			|| ft_strcmp(g_options[j].short_name, key) == 0)
 			break ;
 		j++;
 	}

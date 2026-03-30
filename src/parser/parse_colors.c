@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 14:29:31 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/22 15:39:54 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/30 19:58:40 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "assets/assets.h"
 #include "utils/t_str.h"
 #include "utils/error.h"
-
+#include "../../lib/libft/libft.h"
 #include "parser_internal.h"
 
 static int	add_tile_color(t_assets *a, t_str key, t_str option, t_str value)
@@ -50,9 +50,9 @@ static int	add_asset_color(t_assets *a, t_str key, t_str option, t_str value)
 	(void)option;
 	if (key.len < 2)
 		return (print_error(MOD_PARSER, ERR_COL_INVALID_KEY, 1));
-	if (key.len == 7 && strncmp(key.ptr, "ceiling", 7) == 0)
+	if (key.len == 7 && ft_strncmp(key.ptr, "ceiling", 7) == 0)
 		color = &a->ceiling;
-	else if (key.len == 5 && strncmp(key.ptr, "floor", 5) == 0)
+	else if (key.len == 5 && ft_strncmp(key.ptr, "floor", 5) == 0)
 		color = &a->floor;
 	else
 		return (print_error(MOD_PARSER, ERR_COL_NO_ADDR, 1));

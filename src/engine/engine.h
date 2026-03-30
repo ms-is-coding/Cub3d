@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   engine.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 15:35:08 by macarnie          #+#    #+#             */
-/*   Updated: 2026/03/27 10:49:53 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/30 19:55:18 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENGINE_H
 # define ENGINE_H
 
+# include "../../lib/libft/libft.h"
 # include "assets/assets.h"
 # include "gfx/gfx.h"
 # include "hooks/hooks.h"

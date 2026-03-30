@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 11:02:33 by macarnie          #+#    #+#             */
-/*   Updated: 2026/03/27 10:45:15 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/30 19:44:15 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ bool	is_valid_name(const char *path)
 
 	if (!path || !*path)
 		return (false);
-	len = strlen(path);
+	len = ft_strlen(path);
 	if (len < 5)
 		return (false);
 	dot = path + len - 4;
-	if (strncmp(dot, ".cub\0", 4) != 0)
+	if (ft_strncmp(dot, ".cub\0", 4) != 0)
 		return (false);
 	return (true);
 }
@@ -43,7 +43,7 @@ void	unmap_file(t_file *file)
 	if (!file || !file->data || file->size <= 0)
 		return ;
 	munmap((void *)(size_t)file->data, file->size);
-	memset(file, 0, sizeof(t_file));
+	ft_memset(file, 0, sizeof(t_file));
 }
 
 int	map_file(t_file *file, const char *path)

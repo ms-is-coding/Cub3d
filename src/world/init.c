@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:19:13 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/28 18:10:41 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/30 19:39:52 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	world_buffer_init(t_world_buffer *wb, t_assets *a)
 		return (1);
 	i = 1;
 	while (i < WORLD_COUNT)
-		memcpy(&wb->worlds[i++], &wb->worlds[0], sizeof(t_world));
+		ft_memcpy(&wb->worlds[i++], &wb->worlds[0], sizeof(t_world));
 	atomic_store(&wb->ready_index, 0);
 	wb->write_index = 1;
 	return (0);

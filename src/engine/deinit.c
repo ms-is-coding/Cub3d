@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   deinit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 12:45:47 by macarnie          #+#    #+#             */
-/*   Updated: 2026/03/27 10:58:52 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/30 19:39:18 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ void	engine_deinit(t_engine *e)
 	renderer_deinit(&e->renderer);
 	assets_deinit(&e->assets);
 	gfx_deinit(&e->gfx);
-	memset(e, 0, sizeof(t_engine));
+	ft_memset(e, 0, sizeof(t_engine));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:26:02 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/22 11:30:28 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/30 19:53:17 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include "parser_internal.h"
 #include "utils/error.h"
+#include "../../lib/libft/libft.h"
 
 #include "parser.h"
 
@@ -80,7 +81,7 @@ static int	get_section_fns(t_str str, t_section_fns *f, char *found)
 	while (i < section_count)
 	{
 		if (g_sections[i].len == str.len
-			&& strncmp(str.ptr, g_sections[i].name, g_sections[i].len) == 0)
+			&& ft_strncmp(str.ptr, g_sections[i].name, g_sections[i].len) == 0)
 		{
 			if (*found & g_sections[i].flag)
 				return (print_error(MOD_PARSER, ERR_SECTION_DOUBLE_DEF, 1));

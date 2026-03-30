@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tiles.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:31:53 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/22 11:29:13 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/30 19:59:44 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@
 #include "assets/assets.h"
 #include "utils/t_str.h"
 #include "utils/error.h"
-
+#include "../../lib/libft/libft.h"
 #include "parser_internal.h"
 
 static uint32_t	parse_tile_flags(t_str value)
 {
-	if (value.len == 4 && !strncmp(value.ptr, "wall", 4))
+	if (value.len == 4 && !ft_strncmp(value.ptr, "wall", 4))
 		return (TILE_F_WALL);
-	if (value.len == 6 && !strncmp(value.ptr, "player", 6))
+	if (value.len == 6 && !ft_strncmp(value.ptr, "player", 6))
 		return (TILE_F_PLAYER | TILE_F_WALKABLE);
-	if (value.len == 4 && !strncmp(value.ptr, "door", 4))
+	if (value.len == 4 && !ft_strncmp(value.ptr, "door", 4))
 		return (TILE_F_DOOR | TILE_F_RAY_BLOCK);
-	if (value.len == 5 && !strncmp(value.ptr, "floor", 5))
+	if (value.len == 5 && !ft_strncmp(value.ptr, "floor", 5))
 		return (TILE_F_WALKABLE);
 	return (TILE_F_NONE);
 }
