@@ -6,7 +6,7 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 20:49:25 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/27 15:57:25 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/30 21:29:33 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,21 @@
 
 # include "physics.h"
 
+typedef union u_hitbox {
+	struct {
+		t_vec2i	x;
+		t_vec2i	y;
+	};
+	t_vec2i	e[2];
+}	t_hitbox;
+
 typedef void	(*t_entity_update_fn)(t_world *w,
 									size_t i,
 									t_input *k,
 									float dt
 									);
 
-void	apply_collisions(t_world *w, t_assets *a);
+void	apply_collision(t_world *world, t_assets *assets, int axis);
 
 void	player_update(t_world *world, t_assets *a, t_input *input);
 

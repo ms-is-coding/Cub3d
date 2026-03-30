@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fadzejli <fadzejli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 11:30:34 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/30 21:35:43 by fadzejli         ###   ########.fr       */
+/*   Updated: 2026/03/30 21:53:03 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,52 @@
 
 #define PATH_SIZE 256
 
+static int	extract_frame_count(t_str *str, uint32_t *value)
+{
+	t_str		prefix;
+	t_str		count_str;
+	size_t		i;
+	size_t		len;
+
+	len = str->len;
+	i = 0;
+	while (i < len && str->ptr[i] != ',')
+		i++;
+	if (i == len)
+		return (0);
+	prefix.ptr = str->ptr;
+	prefix.len = i;
+	back_trim_str(&prefix);
+	count_str.ptr = str->ptr + i + 1;
+	count_str.len = len - i - 1;
+	front_trim_str(&count_str);
+	back_trim_str(&count_str);
+	*str = prefix;
+	if (!parse_uint32_str(count_str, value))
+		return (-1);
+	return (1);
+}
+
+static bool	parse_tile_texture_meta(t_str *key, t_str *option,
+	uint32_t *frame_count)
+{
+	int	key_status;
+	int	option_status;
+
+	*frame_count = 1;
+	key_status = extract_frame_count(key, frame_count);
+	if (key_status < 0)
+		return (false);
+	option_status = extract_frame_count(option, frame_count);
+	if (option_status < 0 || (key_status > 0 && option_status > 0))
+		return (false);
+	if (key->len != 1)
+		return (false);
+	if (*frame_count == 0 || *frame_count > 128)
+		return (false);
+	return (true);
+}
+
 static int	add_tile_texture(t_assets *a, t_str key, t_str option, t_str path)
 {
 	char			buf[PATH_SIZE];
@@ -34,8 +80,7 @@ static int	add_tile_texture(t_assets *a, t_str key, t_str option, t_str path)
 	tile = &a->tiles[(unsigned char)key.ptr[0] - 32];
 	if (!tile->flags)
 		return (print_error(MOD_PARSER, ERR_TILE_NO_FLAG, 1));
-	split_option_value(&option, &frame_count);
-	if (frame_count == 0 || frame_count > 128)
+	if (!parse_tile_texture_meta(&key, &option, &frame_count))
 		return (print_error(MOD_PARSER, ERR_TEX_INVALID_FRAME_COUNT, 1));
 	dir = parse_dir_option(option);
 	if (dir >= DIR_COUNT || dir == DIR_INVALID)

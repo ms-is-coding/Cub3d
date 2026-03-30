@@ -6,7 +6,7 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 11:11:52 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/30 21:21:48 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/30 21:49:35 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,5 @@ size_t	back_trim_str(t_str *str);
 void	offset_str(t_str *str, size_t offset);
 bool	split_key_value(t_str entry, t_str *key, t_str *value);
 bool	split_key_option(t_str entry, t_str *key, t_str *option);
-bool	split_option_value(t_str *option, uint32_t *value);
 
 #endif

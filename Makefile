@@ -6,7 +6,7 @@
 #    By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/21 18:33:48 by fadzejli          #+#    #+#              #
-#    Updated: 2026/03/27 16:10:11 by macarnie         ###   ########.fr        #
+#    Updated: 2026/03/30 21:48:31 by macarnie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ SRC_PARSER		:= $(addprefix parser/, parse.c parse_utils.c \
 				  validate_tiles.c validate_textures.c validate_colors.c validate_map.c)
 SRC_ENGINE		:= $(addprefix engine/, init.c deinit.c)
 SRC_RENDERER	:= $(addprefix renderer/, init.c deinit.c frame.c ray.c fog.c \
-				  column.c column2.c column3.c minimap.c render.c debug.c)
+				  column.c column2.c column3.c minimap_border.c minimap.c render.c debug.c)
 SRC_PHYSICS		:= $(addprefix physics/, init.c deinit.c collisions.c player.c entity.c door.c update.c debug.c)
 SRC_GFX			:= $(addprefix gfx/, init.c deinit.c present.c image.c pixel.c loop.c)
 SRC_WORLD		:= $(addprefix world/, init.c deinit.c snapshot.c)

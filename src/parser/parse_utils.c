@@ -6,7 +6,7 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 09:47:06 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/30 19:56:20 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/30 21:18:30 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,30 @@ uint32_t	parse_dir_option(t_str option)
 	if (c >= 'a' && c <= 'z')
 		return (tiles[c - 'a']);
 	return (DIR_INVALID);
+}
+
+bool	parse_uint32_str(t_str str, uint32_t *value)
+{
+	uint32_t	result;
+	uint32_t	digit;
+	size_t		i;
+
+	front_trim_str(&str);
+	back_trim_str(&str);
+	if (str.len == 0)
+		return (false);
+	result = 0;
+	i = 0;
+	while (i < str.len)
+	{
+		if (str.ptr[i] < '0' || str.ptr[i] > '9')
+			return (false);
+		digit = (uint32_t)(str.ptr[i] - '0');
+		if (result > (UINT32_MAX - digit) / 10)
+			return (false);
+		result = result * 10 + digit;
+		i++;
+	}
+	*value = result;
+	return (true);
 }

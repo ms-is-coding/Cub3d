@@ -6,7 +6,7 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 12:38:53 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/30 21:22:24 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/30 21:49:11 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 # include "world/world.h"
 # include "renderer.h"
 # include "utils/vectors.h"
+
+# define MM_SIZE	256
+# define MM_SCALE	20
+# define MM_WALL	0x00FFFFFF
+# define MM_DOOR	0x00FFFF00
+# define MM_FLOOR	0x00333333
+# define MM_OOB		0x00111111
+# define MM_BORDER	0x00FF0000
 
 typedef struct s_render_task {
 	t_renderer		*renderer;
@@ -75,6 +83,8 @@ typedef struct s_col_params
 	t_hit		*hit;
 	t_image		*tex;
 }	t_col_params;
+
+void		draw_border(t_image *f, uint32_t cx, uint32_t cy, float half_fov);
 
 void		draw_minimap(t_image *f, const t_world *w, const t_assets *a);
 
