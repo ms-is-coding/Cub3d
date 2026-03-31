@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   column3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smamalig <smamalig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 00:00:00 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/30 00:00:00 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:51:36 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	draw_ceiling(t_image *f, t_col_params p, uint32_t x, const t_assets *a)
 	while (i < p.draw_start)
 	{
 		dist = (float)p.height / (float)(p.height - 2 * i);
-		if (a->ceiling_tex)
-			color = sample_plane(a->ceiling_tex, p, dist);
+		if (a->asset_tex[TEX_CEILING])
+			color = sample_plane(a->asset_tex[TEX_CEILING], p, dist);
 		else
 			color = a->ceiling;
 		set_pixel(x, i++, apply_fog(color, dist), f);
@@ -59,8 +59,8 @@ void	draw_floor(t_image *f, t_col_params p, uint32_t x, const t_assets *a)
 	while (i < p.height)
 	{
 		dist = (float)p.height / (float)(2 * i - p.height);
-		if (a->floor_tex)
-			color = sample_plane(a->floor_tex, p, dist);
+		if (a->asset_tex[TEX_FLOOR])
+			color = sample_plane(a->asset_tex[TEX_FLOOR], p, dist);
 		else
 			color = a->floor;
 		set_pixel(x, i++, apply_fog(color, dist), f);

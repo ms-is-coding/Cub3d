@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fadzejli <fadzejli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 11:30:34 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/30 21:35:43 by fadzejli         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:57:45 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,60 @@
 
 #define PATH_SIZE 256
 
+const t_str	g_tex_keys[] = {
+[TEX_INVALID] = {"invalid", 7},
+[TEX_SKYBOX] = {"skybox", 6},
+[TEX_FLOOR] = {"floor", 5},
+[TEX_CEILING] = {"ceiling", 7},
+{NULL, 0}
+};
+
+static int	extract_frame_count(t_str *str, uint32_t *value)
+{
+	t_str		prefix;
+	t_str		count_str;
+	size_t		i;
+	size_t		len;
+
+	len = str->len;
+	i = 0;
+	while (i < len && str->ptr[i] != ',')
+		i++;
+	if (i == len)
+		return (0);
+	prefix.ptr = str->ptr;
+	prefix.len = i;
+	back_trim_str(&prefix);
+	count_str.ptr = str->ptr + i + 1;
+	count_str.len = len - i - 1;
+	front_trim_str(&count_str);
+	back_trim_str(&count_str);
+	*str = prefix;
+	if (!parse_uint32_str(count_str, value))
+		return (-1);
+	return (1);
+}
+
+static bool	parse_tile_texture_meta(t_str *key, t_str *option,
+	uint32_t *frame_count)
+{
+	int	key_status;
+	int	option_status;
+
+	*frame_count = 1;
+	key_status = extract_frame_count(key, frame_count);
+	if (key_status < 0)
+		return (false);
+	option_status = extract_frame_count(option, frame_count);
+	if (option_status < 0 || (key_status > 0 && option_status > 0))
+		return (false);
+	if (key->len != 1)
+		return (false);
+	if (*frame_count == 0 || *frame_count > 128)
+		return (false);
+	return (true);
+}
+
 static int	add_tile_texture(t_assets *a, t_str key, t_str option, t_str path)
 {
 	char			buf[PATH_SIZE];
@@ -34,8 +88,7 @@ static int	add_tile_texture(t_assets *a, t_str key, t_str option, t_str path)
 	tile = &a->tiles[(unsigned char)key.ptr[0] - 32];
 	if (!tile->flags)
 		return (print_error(MOD_PARSER, ERR_TILE_NO_FLAG, 1));
-	split_option_value(&option, &frame_count);
-	if (frame_count == 0 || frame_count > 128)
+	if (!parse_tile_texture_meta(&key, &option, &frame_count))
 		return (print_error(MOD_PARSER, ERR_TEX_INVALID_FRAME_COUNT, 1));
 	dir = parse_dir_option(option);
 	if (dir >= DIR_COUNT || dir == DIR_INVALID)
@@ -56,30 +109,28 @@ static int	add_tile_texture(t_assets *a, t_str key, t_str option, t_str path)
 static int	add_asset_texture(t_assets *a, t_str key, t_str option, t_str path)
 {
 	char	buf[PATH_SIZE];
-	t_image	**tex;
+	size_t	i;
 
 	(void)option;
 	if (key.len < 2)
 		return (print_error(MOD_PARSER, ERR_TEX_INVALID_KEY, 1));
-	if (key.len == 7 && ft_strncmp(key.ptr, "invalid", 7) == 0)
-		tex = &a->invalid;
-	else if (key.len == 6 && ft_strncmp(key.ptr, "skybox", 6) == 0)
-		tex = &a->skybox;
-	else if (key.len == 5 && ft_strncmp(key.ptr, "floor", 5) == 0)
-		tex = &a->floor_tex;
-	else if (key.len == 7 && ft_strncmp(key.ptr, "ceiling", 7) == 0)
-		tex = &a->ceiling_tex;
-	else
-		return (print_error(MOD_PARSER, ERR_TEX_NO_ADDR, 1));
-	if (*tex != NULL)
+	i = TEX_INVALID;
+	while (g_tex_keys[i].ptr)
+	{
+		if (g_tex_keys[i].len == key.len
+			&& strncmp(key.ptr, g_tex_keys[i].ptr, key.len) == 0)
+			break ;
+		i++;
+	}
+	if (a->asset_tex[i] != NULL)
 		return (print_error(MOD_PARSER, ERR_TEX_DOUBLE_DEF, 1));
 	if (path.len >= sizeof(buf))
 		return (print_error(MOD_PARSER, ERR_TEX_PATH_TOO_LONG, 1));
 	ft_memcpy(buf, path.ptr, path.len);
 	buf[path.len] = '\0';
-	*tex = get_image_from_xpm(a->gfx->mlx, buf);
-	if (*tex == NULL)
-		return (print_error(MOD_PARSER, ERR_PERROR, 1));
+	a->asset_tex[i] = get_image_from_xpm(a->gfx->mlx, buf);
+	if (a->asset_tex[i] == NULL)
+		return (print_error(MOD_PARSER, ERR_IMG_LOAD, 1));
 	return (0);
 }
 

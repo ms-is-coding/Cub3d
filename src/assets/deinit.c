@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   deinit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
+/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:35:52 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/22 15:17:21 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/31 14:50:52 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,15 @@ static void	free_tile_textures(t_assets *a)
 
 static void	free_asset_textures(t_assets *a)
 {
-	if (a->skybox)
-		gfx_image_destroy(a->gfx->mlx, a->skybox);
-	if (a->invalid)
-		gfx_image_destroy(a->gfx->mlx, a->invalid);
-	if (a->floor_tex)
-		gfx_image_destroy(a->gfx->mlx, a->floor_tex);
-	if (a->ceiling_tex)
-		gfx_image_destroy(a->gfx->mlx, a->ceiling_tex);
+	size_t	i;
+
+	i = TEX_INVALID;
+	while (i < TEX_COUNT)
+	{
+		if (a->asset_tex[i])
+			gfx_image_destroy(a->gfx->mlx, a->asset_tex[i]);
+		i++;
+	}
 }
 
 void	assets_deinit(t_assets *assets)

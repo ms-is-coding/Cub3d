@@ -6,7 +6,7 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 19:25:04 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/30 20:26:08 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:50:28 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ static void	assets_tiles_init(t_assets *a)
 		}
 		i++;
 	}
-	a->floor_tex = NULL;
-	a->ceiling_tex = NULL;
+	i = TEX_INVALID;
+	while (i < TEX_COUNT)
+		a->asset_tex[i++] = NULL;
 	a->ceiling = RGB_INVALID;
 	a->floor = RGB_INVALID;
 }

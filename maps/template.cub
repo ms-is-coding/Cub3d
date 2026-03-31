@@ -1,20 +1,30 @@
 [TILES]
 
 1=wall
+2=wall
+3=wall
+4=wall
+5=wall
+6=wall
+F=wall
 N=player
 E=player
 S=player
 W=player
 0=floor
-2=wall
 D=door
 
 [TEXTURES]
 
-1:E,16=./textures/slime.xpm
-D=./textures/west.xpm
-floor=./textures/colorstone.xpm
-ceiling=./textures/colorstone.xpm
+1=./textures/concrete_wall/cw_a.xpm
+2=./textures/concrete_wall/cw_b.xpm
+3=./textures/concrete_wall/cw_c.xpm
+5=./textures/concrete_wall/cw_e.xpm
+6=./textures/concrete_wall/cw_f.xpm
+F,4=./textures/fan.xpm
+D=./textures/vlad.xpm
+floor=./textures/floor_metal.xpm
+ceiling=./textures/vlad.xpm
 
 invalid=./textures/invalid.xpm
 
@@ -24,16 +34,16 @@ ceiling=0,255,0
 
 [MAP]
 
-111111111111111111111
-1000000000000000D0001
-1D11111111111111111D1
-101000000000000000101
-1000000DD00000D000101
-1010000DD000000000101
-10100000001D100000101                                      111
-10000000001D100000101                                      111
-101000000011100000101                                      111
-101000000000000000101
-101111111011111111101
-1000D0000S00000000001
-111111111111111111111
+663664662666416326266
+3000000000000000D0006
+4D6663666466F266264D6
+606000000000000000602
+6000000DD00000D000605
+2060000DD000000000106
+30600000005D100000302                                      666
+40000000006D600000606                                      666
+206000000063600000406                                      666
+606000000000000000206
+606656266061622666602
+6000D0000S00000000006
+626622656F63366662666

@@ -6,7 +6,7 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 11:15:09 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/30 21:22:00 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/30 21:35:04 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,32 +96,5 @@ bool	split_key_option(t_str entry, t_str *key, t_str *option)
 		option->ptr++;
 		option->len--;
 	}
-	return (true);
-}
-
-bool	split_option_value(t_str *option, uint32_t *value)
-{
-	t_str	value_str;
-	size_t	i;
-
-	i = 0;
-	while (i < option->len && option->ptr[i] != ',')
-		i++;
-	if (i >= option->len || i == 0)
-	{
-		*value = 1;
-		return (false);
-	}
-	option->len = i;
-	while (option->len > 0 && is_whitespace(option->ptr[option->len - 1]))
-		option->len--;
-	value_str.ptr = option->ptr + i + 1;
-	value_str.len = option->len - i - 1;
-	while (value_str.len > 0 && is_whitespace(value_str.ptr[0]))
-	{
-		value_str.ptr++;
-		value_str.len--;
-	}
-	*value = (uint32_t)ft_untoi(value_str.ptr, value_str.len);
 	return (true);
 }

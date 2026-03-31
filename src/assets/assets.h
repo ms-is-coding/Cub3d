@@ -6,7 +6,7 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 19:26:08 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/30 19:39:39 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/31 15:00:06 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,15 @@ typedef enum e_dir
 	DIR_COUNT,
 }	t_dir;
 
+typedef enum e_asset_tex
+{
+	TEX_INVALID,
+	TEX_SKYBOX,
+	TEX_FLOOR,
+	TEX_CEILING,
+	TEX_COUNT,
+}	t_asset_tex;
+
 typedef struct s_tile
 {
 	t_tile_flags	flags;
@@ -78,10 +87,7 @@ typedef struct s_assets
 
 	t_tile		tiles[96];
 
-	t_image		*invalid;
-	t_image		*skybox;
-	t_image		*floor_tex;
-	t_image		*ceiling_tex;
+	t_image		*asset_tex[TEX_COUNT];
 
 	uint32_t	floor;
 	uint32_t	ceiling;

@@ -6,7 +6,7 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 19:17:19 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/30 21:07:56 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:53:17 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	draw_background_column(t_render_task *task, t_ray *ray)
 	tile = &assets->tiles[bg_hit.tile_id];
 	p.tex = tile_texture_at(tile, ray, bg_hit.side);
 	if (!p.tex)
-		p.tex = assets->invalid;
+		p.tex = assets->asset_tex[TEX_INVALID];
 	init_params(&p, ray, &bg_hit, task->frame->height);
 	draw_ceiling(task->frame, p, ray->x, assets);
 	draw_wall(task->frame, p, ray->x, tile);
@@ -99,7 +99,7 @@ void	draw_column(t_render_task *task, t_ray *ray, t_hit *hit)
 	p.tick = task->world->tick;
 	p.cam_pos = task->world->player.pos;
 	if (!p.tex)
-		p.tex = assets->invalid;
+		p.tex = assets->asset_tex[TEX_INVALID];
 	if (hit->is_door && hit->offset > 0.0f)
 	{
 		draw_background_column(task, ray);

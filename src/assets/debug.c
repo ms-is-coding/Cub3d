@@ -6,7 +6,7 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 15:37:15 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/30 20:15:31 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:55:58 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,14 @@ void	debug_print_assets(t_assets *a)
 	dprintf(2, "\nMap:\n");
 	debug_print_map(&a->map);
 	dprintf(2, "\nOther:\n");
-	if (a->skybox)
+	if (a->asset_tex[TEX_SKYBOX])
 		dprintf(2, "\t-Skybox texture defined\n");
-	if (a->invalid)
+	if (a->asset_tex[TEX_INVALID])
 		dprintf(2, "\t-Invalid texture defined\n");
+	if (a->asset_tex[TEX_FLOOR])
+		dprintf(2, "\t-Floor texture defined\n");
+	if (a->asset_tex[TEX_CEILING])
+		dprintf(2, "\t-Ceiling texture defined\n");
 	if (a->floor != RGB_INVALID)
 		dprintf(2, "\t-Floor color defined: 0x%06X\n", a->floor);
 	if (a->ceiling != RGB_INVALID)

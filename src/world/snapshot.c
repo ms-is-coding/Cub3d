@@ -6,11 +6,13 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 21:26:26 by macarnie          #+#    #+#             */
-/*   Updated: 2026/03/27 10:47:21 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/31 16:00:11 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "world.h"
+
+#include <stdio.h>
 
 const t_world	*world_get_ready_snapshot(const t_world_buffer *wb)
 {
@@ -30,6 +32,7 @@ void	world_copy_snapshot(t_world *dst, const t_world *src)
 
 	dst->player = src->player;
 	dst->entity_count = src->entity_count;
+	dst->tick = src->tick;
 	i = 0;
 	while (i < src->entity_count)
 	{

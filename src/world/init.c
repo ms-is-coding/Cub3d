@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fadzejli <fadzejli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:19:13 by smamalig          #+#    #+#             */
-/*   Updated: 2026/03/30 21:36:24 by fadzejli         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:58:52 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void	set_player(t_world *world, const t_map *map)
 	world->player.vel.y = 0.0f;
 	world->player.width = ENTITY_SIZE * 2.0f;
 	world->player.height = ENTITY_SIZE * 2.0f;
-	printf("=> %c\n", map->data[map->player_pos] + 32);
 	world->player.yaw
 		= (map->data[map->player_pos] + 32 == 'N') * (float)(3.0 * M_PI_2)
 		+ (map->data[map->player_pos] + 32 == 'S') * (float)(1.0 * M_PI_2)

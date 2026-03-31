@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_textures.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mattcarniel <mattcarniel@student.42.fr>    +#+  +:+       +#+        */
+/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 14:54:43 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/22 11:30:05 by mattcarniel      ###   ########.fr       */
+/*   Updated: 2026/03/31 14:54:48 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@
 
 static int	validate_asset_textures(t_assets *a)
 {
-	if (!a->invalid)
+	if (!a->asset_tex[TEX_INVALID])
 		return (print_error(MOD_PARSER, ERR_TEX_NO_INVALID, 1));
 	return (0);
 }
 
 static int	no_valid_textures(t_assets *a, size_t pos)
 {
-	if (a->invalid)
-		a->tiles[pos].textures[DIR_INVALID] = a->invalid;
+	a->tiles[pos].textures[DIR_INVALID] = a->asset_tex[TEX_INVALID];
 	if (a->tiles[pos].flags & TILE_F_RAY_BLOCK
 		&& !a->tiles[pos].textures[DIR_DEFAULT]
 		&& (!a->tiles[pos].textures[DIR_NORTH]

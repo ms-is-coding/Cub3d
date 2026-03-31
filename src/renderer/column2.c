@@ -6,7 +6,7 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 14:50:44 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/30 21:22:07 by smamalig         ###   ########.fr       */
+/*   Updated: 2026/03/31 16:12:19 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,22 @@
 
 static uint32_t	get_tex_x(t_image *tex, t_col_params p, const t_tile *tile)
 {
-	uint32_t		x;
-	float			wall_x;
-	const uint32_t	fc = tile->frame_count[ray_to_dir(p.ray, p.hit->side)];
+	uint32_t	x;
+	float		wall_x;
+	uint32_t	fc;
+	const t_dir	dir = ray_to_dir(p.ray, p.hit->side);
 
+	if (tile->textures[dir])
+		fc = tile->frame_count[dir];
+	else
+		fc = tile->frame_count[DIR_DEFAULT];
 	wall_x = p.hit->wall_x;
 	if (wall_x < 0.0f)
 		wall_x = 0.0f;
 	else if (wall_x > 1.0f)
 		wall_x = 1.0f;
 	x = (uint32_t)(wall_x * (float)(tex->width / fc));
-	x += (p.tick % fc) * tex->width / fc;
+	x += (p.tick / 16 % fc) * tex->width / fc;
 	if ((p.hit->side == 0 && p.ray->dir.x > 0)
 		|| (p.hit->side == 1 && p.ray->dir.y < 0))
 			x = tex->width - x - 1;
