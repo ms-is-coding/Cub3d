@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fadzejli <fadzejli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:39:13 by macarnie          #+#    #+#             */
-/*   Updated: 2026/03/30 21:36:50 by fadzejli         ###   ########.fr       */
+/*   Updated: 2026/03/31 15:13:42 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,18 @@
 
 #include "options/options.h"
 
-t_option		g_options[] = {
+const char	*g_help_message[] = {
+	"Usage: <./cub3D filename.cub> [OPTIONS]\n",
+	"\nOptions: \n",
+	"\t-W, --width   <uint32>   Window width  (1-2880, default: 800)\n",
+	"\t-H, --height  <uint32>   Window height (1-1920, default: 600)\n",
+	"\t-j, --threads <int32>    Render threads (0-128, default:0)\n",
+	"\t-f, --fps     <int16>    FPS cap (0-165, default: 60)\n",
+	"\t-h, --help               Display this help message\n",
+	NULL,
+};
+
+t_option	g_options[] = {
 {
 	.name = "--threads",
 	.short_name = "-j",
@@ -53,6 +64,18 @@ t_option		g_options[] = {
 }
 };
 
+static void	print_help_message(void)
+{
+	int	i;
+
+	i = 0;
+	while (g_help_message[i])
+	{
+		printf("%s", g_help_message[i]);
+		i++;
+	}
+}
+
 static void	init_default_values(t_options *opts)
 {
 	opts->thread_count = 0;
@@ -67,9 +90,14 @@ static int	get_option(t_options *opts, const char *key, const char *value)
 	size_t			j;
 	const size_t	opt_count = sizeof(g_options) / sizeof(struct s_option);
 
+	j = 0;
 	if (!key)
 		return (1);
-	j = 0;
+	if (!ft_strcmp(key, "-h") || !ft_strcmp(key, "--help"))
+	{
+		print_help_message();
+		exit(0);
+	}
 	while (j < opt_count)
 	{
 		if (ft_strcmp(g_options[j].name, key) == 0

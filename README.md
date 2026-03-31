@@ -8,7 +8,12 @@ Cub3D is a raycasting project inspired by Wolfenstein 3D, developed as part of t
 
 It uses **raycasting** to simulate a 3D environment where the player can move inside a textured maze.
 
-## Compilation
+Key features include a **multithreaded renderer**, a **fixed-timestep physics loop**, a **triple-buffered world state** for lock-free communication between threads, a **minimap**, and a custom configurable **tile/texture/color map format**.
+
+___
+
+### Compilation
+
 
 The project is written in C and uses the MiniLibX library for graphics. It also includes a custom libft library for utility functions.
 
@@ -19,6 +24,7 @@ make fclean
 make re
 make bonus
 ```
+___
 
 ### Execution
 
@@ -34,30 +40,45 @@ The map file defines everything about the game, including textures, colors, and 
 
 The program will open a window and render the 3D view based on the provided map. You can move around using the keyboard controls, or the mouse.
 
+---
+
 ### Options
 
 You can run the game with various options:
+* `-W` or `--width <uint32>`: Set the window width (default: 800)
+* `-H` or `--height <uint32>`: Set the window height (default: 600)
+* `-j` or `--threads <int32>`: Set the number of threads for rendering (default: 0, max: 128)
+* `-f` or `--fps <int16>`: Set fps for window title (default: 60, max: 165)
+* `-h` or `--help`: Display help message
+
+Example: 
 
 ```bash
 ./cub3D <filename.cub> -W 1000 -H 800 -j 0
 ```
 
-The options include:
-* `-W <width>`: Set the window width (default: 800)
-* `-H <height>`: Set the window height (default: 600)
-* `-j <threads>`: Set the number of threads for rendering (default: 0, max: 128)
-* `-f`: Set fps for window title (default: 60, max: 165)
-* `-h`: Display help message
+## Controls
+
+**Movement**
+
+| Input | Action |
+|-------|--------|
+| `W` / `S` | Move forward / backward |
+| `A` / `D` | Strafe left / right |
+| `←` / `→` | Rotate left / right |
+| Mouse | Rotate (yaw) |
+| `Escape` | Quit |
+
 
 ## Map File Format : 4 sections
 
-The `.cub` file format is a text file that defines the textures, the game's components, the colors, and a 2D grid representing the map layout. 
+The `.cub` file is a text file divided into four mandatory sections, in any order: `[TILES]`, `[TEXTURES]`, `[COLORS]`, and `[MAP]`.
 
-It consists of three 4 sections, each with specific rules and formats:
+Each section has a specific format and purpose:
 
 ### _[TILES]
 
-Defines the characters used in the map grid and their meanings (e.g., `0` for empty space, `1` for wall, `N S E W` for player start position and direction).
+Defines the characters used in the map grid and their meanings.
 
 ```
 [TILES]
@@ -68,23 +89,28 @@ N=player
 2=wall
 ```
 
+**At least one `wall` tile and exactly one `player` tile must be declared.**
+
 ### _[TEXTURES]
 
-Defines the file paths for the wall textures (North, South, East, West).
+Defines the file paths for the wall textures. Directional variants can be specified with a `:DIR` suffix where **DIR** is one of **N**orth, **S**outh, **E**ast, **W**est.
 
 ```
 [TEXTURES]
 
-1:N=path_to_texture
-1:S=path_to_texture
-1:E=path_to_texture
-1:W=path_to_texture
+1:N=./textures/wall_north.xpm
+1:S=./textures/wall_south.xpm
+1:E=./textures/wall_east.xpm
+1:W=./textures/wall_west.xpm
 invalid:./textures/invalid.xpm
 ```
 
+The `invalid` texture is **required** and is used as a fallback for tiles without a texture.
+
 ### _[COLORS]
 
-Define the RGB colors for the floor and ceiling.
+Defines the RGB colors (0-255) for the floor and ceiling.
+Colors are used when no texture is assigned for a face.
 
 ```
 [COLORS]
@@ -95,41 +121,32 @@ C=R,G,B
 
 ### _[MAP]
 
-Defines the layout of the map using the characters defined in the TILES section. The map must be closed by walls, contain only one player, and have no invalid characters.
+A 2D grid of tile characters. The map must be closed by walls, contain only one player, and have no invalid characters.
 
 ```
 [MAP]
 
-111111
-100001
-1000N1
-111111
+111111111111111111111
+100000000000000000001
+101111111001111111101
+101     1001      101
+101     1001      101
+101     1001      101
+101     1001      101
+101     1001      101
+101     1001      101
+101     1001      101
+101111111001111111101
+100000000N00000000001
+111111111111111111111
 ```
-
-## Controls
-
-**Movement**
-
-* W, S, A, D: move
-* Left / Right arrows: rotate
-
-**Exit**
-
-* ESC or window close button
-
-### Bonus
-
-* Minimap
-* Doors
-* Animated sprites
-* Mouse rotation
 
 ## Rules
 
-* Map must be closed by walls
-* Only one player
-* No invalid characters
-* All configuration must appear before the map
+* Map must be surrounded by walls (= closed)
+* Only one player point
+* No invalid or undeclared characters
+* All sections must appear before the [MAP] section
 
 Example:
 
@@ -142,9 +159,16 @@ N=player
 
 [TEXTURES]
 
+1:N=./textures/north.xpm
+1:S=./textures/south.xpm
+1:E=./textures/east.xpm
+1:W=./textures/west.xpm
 invalid=./textures/invalid.xpm
 
 [COLORS]
+
+ceiling=0,255,0
+floor=255,255,0
 
 [MAP]
 
@@ -162,6 +186,42 @@ invalid=./textures/invalid.xpm
 100000000N00000000001
 111111111111111111111
 ```
+
+ 
+## Bonus
+ 
+- Minimap
+- Doors
+- Animated sprites
+- Mouse rotation
+
+
+## Raycasting Overview
+ 
+For each screen column:
+ 
+1. Cast a ray from the player position
+2. Find the wall hit using DDA (Digital Differential Analysis)
+3. Compute the wall distance
+4. Select the appropriate texture based on the hit direction
+5. Draw the ceiling, wall column, and floor with distance-based fog
+ 
+
+## Error Handling
+ 
+The program prints:
+ 
+```
+Error
+<error_message>
+```
+ 
+Cases include:
+ 
+- Invalid or missing file
+- Invalid configuration
+- Invalid map (not closed, multiple players, unknown characters)
+- Texture or graphics initialization failure
 
 ## Project Structure
 
@@ -183,7 +243,7 @@ invalid=./textures/invalid.xpm
 │   ├── engine/
 │   ├── gfx/
 │   ├── hooks/
-│   ├── word/
+│   ├── world/
 │   ├── options/
 │   ├── parser/
 │   ├── physics/
@@ -198,28 +258,16 @@ invalid=./textures/invalid.xpm
 
 ```
 
-## Error Handling
+## Resources
+ 
+- [Lode's Raycasting Tutorial](https://lodev.org/cgtutor/raycasting.html)
+- [Raycasting Tutorial](https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/)
+- [DDA Algorithm Explanation](https://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm))
+- [MLX Documentation](https://harm-smits.github.io/42docs/libs/minilibx)
 
-The program prints:
 
-```
-Error
-message
-```
 
-Cases include:
-
-* Invalid or missing file
-* Invalid configuration
-* Invalid map
-* Texture or graphics initialization failure
-
-## Raycasting Overview
-
-For each screen column:
-
-* Cast a ray
-* Find wall using DDA
-* Compute distance
-* Select texture
-* Draw wall, floor, ceiling
+ 
+### Use of AI
+ 
+AI tools were used during this project for research and documentation purposes (understanding raycasting algorithms, threading patterns, and the MLX API).

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   options.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fadwa <fadwa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:37:42 by macarnie          #+#    #+#             */
-/*   Updated: 2026/03/27 19:37:49 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/31 15:11:07 by fadwa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stddef.h>
 # include <stdint.h>
+# include <stdio.h>
 
 typedef struct s_options {
 	const char		*file_path;
