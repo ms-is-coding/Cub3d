@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fadzejli <fadzejli@student.42.fr>          +#+  +:+       +#+         #
+#    By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 14:41:02 by fadzejli          #+#    #+#              #
-#    Updated: 2026/03/31 19:56:47 by fadzejli         ###   ########.fr        #
+#    Updated: 2026/03/31 20:47:21 by macarnie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,6 @@ SRCS = ft_isalpha.c \
 	ft_isspace.c \
 	gnl.c	\
 	ft_atoi_rgb.c \
-	ft_untoi.c \
 	ft_free_split.c \
 	ft_strcmp.c \
 	ft_strtol.c

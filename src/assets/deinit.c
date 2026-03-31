@@ -6,13 +6,15 @@
 /*   By: macarnie <macarnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:35:52 by mattcarniel       #+#    #+#             */
-/*   Updated: 2026/03/31 14:50:52 by macarnie         ###   ########.fr       */
+/*   Updated: 2026/03/31 20:02:28 by macarnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "libft.h"
 
 #include "assets.h"
 #include "gfx/gfx.h"
@@ -65,5 +67,5 @@ void	assets_deinit(t_assets *assets)
 		free_tile_textures(assets);
 		free_asset_textures(assets);
 	}
-	memset(assets, 0, sizeof(t_assets));
+	ft_memset(assets, 0, sizeof(t_assets));
 }
